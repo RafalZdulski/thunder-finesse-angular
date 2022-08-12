@@ -2,15 +2,34 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PlayerVehiclesComponent } from './player/player-vehicles/player-vehicles.component';
+import {AppRoutingModule} from "./app-routing.module";
+import {PlayerService} from "../services/player.service";
+import {RouterModule} from "@angular/router";
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import { PlayerNavbarComponent } from './player/player-navbar/player-navbar.component';
+import { PageNavbarComponent } from './page-navbar/page-navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PlayerVehiclesComponent,
+    PlayerNavbarComponent,
+    PageNavbarComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule,
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [
+    PlayerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

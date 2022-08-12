@@ -1,0 +1,162 @@
+<app-player-navbar></app-player-navbar>
+
+<div class="container mb-3">
+  <div class="tab-bar">
+    <ul class="nav nav-tabs">
+      <li *ngFor="let m of modes" class="nav-item">
+        <a class="nav-link" href="/player/{{login}}/vehicles?mode={{m.value}}" [ngClass]="{'active' : m.value==mode}">{{m.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="container-fluid ">
+  <div class="d-flex justify-content-center flex-nowrap m-3">
+    <button class="btn btn-light col-md-9 mx-auto" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
+  </div>
+  <div class="row">
+    <div [hidden]="hideFilters" class="col-md-9 mx-auto">
+      <form class="form-floating form-inline">
+        <div class="mb-2" id="rank-filter">
+          <div class="filter-label">Rank:
+            <button class="check-all">all</button> | <span class="uncheck-all">none</span>
+            <div class="offset-1">
+            <div class="form-check-inline" *ngFor="let rank of ranks">
+              <label class="form-check-label"><input class="form-check-input" type="checkbox" name="rank" [value]="rank.value" checked="checked">{{rank.name}}</label>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2" id="nation-filter">
+          <div class="filter-label">Nation:
+            <span class="check-all">all</span> | <span class="uncheck-all">none</span>
+            <div class="offset-1">
+            <div class="form-check-inline" *ngFor="let nation of nations">
+              <label class="form-check-label"><input class="form-check-input"  type="checkbox" name="nation" [value]="nation.value" checked="checked">{{nation.name}}</label>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2" id="br-filter">
+          <div class="filter-label">Battle rating:</div>
+          <div class="offset-1">
+            <div class="d-lg-inline-flex form-check-inline">
+            <select class="form-select form-select-sm" name="br-lower">
+              <option *ngFor="let br of brs" [value]="br.value">{{br.name}}</option>
+            </select>
+             -
+            <select class="form-select form-select-sm" name="br-upper">
+              <option *ngFor="let br of brs; last as lastElement" [value]="br.value" [selected]="lastElement">{{br.name}}</option>
+            </select>
+          </div>
+          </div>
+        </div>
+        <div class="mb-2" id="class-filters" >
+          <div [hidden]="!mode.startsWith('ground')" class="filters" id="army-class-filter" >
+            <div class="filter-label">Class:
+              <span class="check-all">all</span> | <span class="uncheck-all">none</span>
+              <div class="offset-1">
+              <div class="form-check-inline" *ngFor="let klass of groundVehicleClasses">
+                <label class="form-check-label"><input class="form-check-input" type="checkbox" name="ground-class" [value]="klass.value" checked="checked">{{klass.name}}</label>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div [hidden]="!mode.startsWith('air')" class="mb-2" id="aviation-class-filter" >
+            <div class="filter-label">Class:
+              <span class="check-all">all</span> |<span class="uncheck-all">none</span>
+              <div class="offset-1">
+              <div class="form-check-inline" *ngFor="let klass of aircraftClasses">
+                <label class="form-check-label"><input class="form-check-input"  type="checkbox" name="air-class" [value]="klass.value" checked="checked">{{klass.name}}</label>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2" id="status-filters">
+          <div class="filter-label">Status:
+            <span class="check-all">all</span> | <span class="uncheck-all">none</span>
+            <div class="offset-1">
+            <div class="form-check-inline" *ngFor="let status of status">
+              <label class="form-check-label"><input class="form-check-input"  type="checkbox" name="status" [value]="status.value" checked="checked">{{status.name}}</label>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2" id="battle-filter">
+          <div class="filter-label">min battles:
+            <input type="number" class="col-md-1 form-text" [value]="slider.value!">
+            <div class="d-flex justify-content-center flex-nowrap">
+            <span>1</span>
+            <input class="form-range w-75" type="range" min="1" max="200" ngModel #slider step="1">
+            <span>200</span>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center flex-nowrap">
+          <button class="btn btn-primary col-sm-4" (click)="filterList()">filter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="table-responsive">
+    <table class="table table-striped table-hover" id="sortTable">
+      <thead>
+      <tr>
+        <th scope="col"># </th>
+        <th scope="col">Rank</th>
+        <th scope="col">Nation</th>
+        <th scope="col">br</th>
+        <th scope="col">Class</th>
+        <th scope="col">Name</th>
+        <th scope="col">Victories</th>
+        <th scope="col">Battles</th>
+        <th scope="col">wr%</th>
+        <th scope="col">Spawns</th>
+        <th scope="col">Deaths</th>
+        <th scope="col">Ground Kills</th>
+        <th scope="col">Air Kills</th>
+        <th scope="col">k/d</th>
+        <th scope="col">k/s</th>
+      </tr>
+      </thead>
+      <tr id="summary-row">
+        <td class="number">{{(filteredVehicles | async)?.length}}</td>
+        <td colspan="5" style="text-align: center">summary</td>
+        <td class="number">{{sumWins}}</td>
+        <td class="number">{{sumBattles}}</td>
+        <td class="number win-ratio">{{(sumWins/sumBattles*100).toFixed(2).substr(0,5)}}</td>
+        <td class="number">{{sumSpawns}}</td>
+        <td class="number">{{sumDeaths}}</td>
+        <td class="number">{{sumGroundKills}}</td>
+        <td class="number">{{sumAirKills}}</td>
+        <td class="number kd-ratio">{{((sumGroundKills+sumAirKills)/sumDeaths).toFixed(2)}}</td>
+        <td class="number ks-ratio">{{((sumGroundKills+sumAirKills)/sumDeaths).toFixed(2)}}</td>
+      </tr>
+      <tbody>
+      <tr *ngFor="let v of filteredVehicles | async; let i = index">
+        <td class="number">{{i+1}}</td>
+        <td>{{v.vehicle.rank}}</td>
+        <td>{{v.vehicle.nation}}</td>
+        <td [hidden]="!mode.endsWith('ab')">{{v.vehicle.arcade_br}}</td>
+        <td [hidden]="!mode.endsWith('rb')">{{v.vehicle.realistic_br}}</td>
+        <td [hidden]="!mode.endsWith('sb')">{{v.vehicle.simulation_br}}</td>
+        <td>{{v.vehicle.klass}}</td>
+        <td>{{v.vehicle.name}}</td>
+        <td class="number">{{v.wins}}</td>
+        <td class="number">{{v.battles}}</td>
+        <td class="number win-ratio">{{(v.wins/v.battles*100).toFixed(2).substr(0,5)}}</td>
+        <td class="number">{{v.spawns}}</td>
+        <td class="number">{{v.deaths}}</td>
+        <td class="number">{{v.ground_kills}}</td>
+        <td class="number">{{v.air_kills}}</td>
+        <td class="number kd-ratio">{{((v.ground_kills+v.air_kills)/v.deaths).toFixed(2)}}</td>
+        <td class="number ks-ratio">{{((v.ground_kills+v.air_kills)/v.spawns).toFixed(2)}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

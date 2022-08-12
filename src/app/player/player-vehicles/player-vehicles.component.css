@@ -1,0 +1,52 @@
+/******        FILTERS         ******/
+#filters-btn::before {content: " show "}
+#filters-btn::after {content: " \25bc "}
+#filters-btn.active::before {content: " hide "}
+#filters-btn.active::after {content: " \25b2 "}
+
+
+/******        TABLE         ******/
+/*table {*/
+/*  padding: 0;*/
+/*  margin-top: 1em;*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  width: 100%;*/
+/*}*/
+/*td {*/
+/*  text-align: left;*/
+/*  padding: 5px;*/
+/*  min-width: 2ch;*/
+/*  border: 1px solid lightgray;*/
+/*}*/
+/*td.number{*/
+/*  text-align: right;*/
+/*  padding-right: 1ex;*/
+/*}*/
+/*tr:nth-child(even) {*/
+/*  background-color: #eef0f8;*/
+/*}*/
+/*tr:nth-child(odd) {*/
+/*  background-color: white;*/
+/*}*/
+/*th{*/
+/*  padding: 10px;*/
+/*  text-align: left;*/
+/*  background-color: lightblue;*/
+/*  border-bottom: 2px outset;*/
+/*}*/
+
+th[sorted][data-order|='asc']::after { content: "\25bc" }
+th[sorted][data-order|='desc']::after { content: "\25b2" }
+
+
+#summary-row{
+  font-style: italic;
+  font-weight: bold;
+  border-bottom: 2px dotted grey;
+  background-color: #eef0f8;
+}
+
+/******        TABLE         ******/
+
+
