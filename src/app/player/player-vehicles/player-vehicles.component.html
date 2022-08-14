@@ -1,5 +1,6 @@
 <app-player-navbar></app-player-navbar>
 
+<!--MODE TAB-BAR-->
 <div class="container mb-3">
   <div class="tab-bar">
     <ul class="nav nav-tabs">
@@ -9,30 +10,42 @@
     </ul>
   </div>
 </div>
+<!--END OF MODE TAB-BAR-->
 
+<!--FILTERS-->
 <div class="container-fluid ">
   <div class="d-flex justify-content-center flex-nowrap m-3">
-    <button class="btn btn-light col-md-9 mx-auto" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
+    <button class="btn btn-outline-secondary col-md-9 mx-auto" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
   </div>
   <div class="row">
     <div [hidden]="hideFilters" class="col-md-9 mx-auto">
       <form class="form-floating form-inline">
-        <div class="mb-2" id="rank-filter">
+        <div class="mb-2">
           <div class="filter-label">Rank:
-            <button class="check-all">all</button> | <span class="uncheck-all">none</span>
+            <button class="btn btn-light btn-sm" (click)="checkAll('ranks')">all</button>
+            <span> | </span>
+            <button class="btn btn-light btn-sm" (click)="uncheckAll('ranks')">none</button>
             <div class="offset-1">
             <div class="form-check-inline" *ngFor="let rank of ranks">
-              <label class="form-check-label"><input class="form-check-input" type="checkbox" name="rank" [value]="rank.value" checked="checked">{{rank.name}}</label>
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="rank" [value]="rank.value" [checked]="rank.checked"  (change)="rank.checked = !rank.checked">
+                {{rank.name}}
+              </label>
             </div>
             </div>
           </div>
         </div>
         <div class="mb-2" id="nation-filter">
           <div class="filter-label">Nation:
-            <span class="check-all">all</span> | <span class="uncheck-all">none</span>
+            <button class="btn btn-light btn-sm" (click)="checkAll('nations')">all</button>
+            <span> | </span>
+            <button class="btn btn-light btn-sm" (click)="uncheckAll('nations')">none</button>
             <div class="offset-1">
             <div class="form-check-inline" *ngFor="let nation of nations">
-              <label class="form-check-label"><input class="form-check-input"  type="checkbox" name="nation" [value]="nation.value" checked="checked">{{nation.name}}</label>
+              <label class="form-check-label">
+                <input class="form-check-input"  type="checkbox" name="nation" [value]="nation.value" [checked]="nation.checked" (change)="nation.checked = !nation.checked">
+                {{nation.name}}
+              </label>
             </div>
             </div>
           </div>
@@ -41,11 +54,11 @@
           <div class="filter-label">Battle rating:</div>
           <div class="offset-1 row-cols-sm-4">
             <div class="d-lg-inline-flex form-check-inline">
-            <select class="form-select form-select-sm col" name="br-lower">
+            <select class="form-select form-select-sm col" name="lower-br" [(ngModel)]="lowerBr">
               <option *ngFor="let br of brs; first as firstElement" [value]="br.value" [selected]="firstElement">{{br.name}}</option>
             </select>
              <div class="col justify-content-center d-lg-inline-flex">-</div>
-            <select class="form-select form-select-sm col" name="br-upper">
+            <select class="form-select form-select-sm col" name="upper-br" [(ngModel)]="upperBr">
               <option *ngFor="let br of brs; last as lastElement" [value]="br.value" [selected]="lastElement">{{br.name}}</option>
             </select>
           </div>
@@ -54,20 +67,30 @@
         <div class="mb-2" id="class-filters" >
           <div [hidden]="!mode.startsWith('ground')" class="filters" id="army-class-filter" >
             <div class="filter-label">Class:
-              <span class="check-all">all</span> | <span class="uncheck-all">none</span>
+              <button class="btn btn-light btn-sm" (click)="checkAll('groundVehicleClasses')">all</button>
+              <span> | </span>
+              <button class="btn btn-light btn-sm" (click)="uncheckAll('groundVehicleClasses')">none</button>
               <div class="offset-1">
               <div class="form-check-inline" *ngFor="let klass of groundVehicleClasses">
-                <label class="form-check-label"><input class="form-check-input" type="checkbox" name="ground-class" [value]="klass.value" checked="checked">{{klass.name}}</label>
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" name="ground-class" [value]="klass.value" [checked]="klass.checked"  (change)="klass.checked = !klass.checked">
+                  {{klass.name}}
+                </label>
               </div>
               </div>
             </div>
           </div>
           <div [hidden]="!mode.startsWith('air')" class="mb-2" id="aviation-class-filter" >
             <div class="filter-label">Class:
-              <span class="check-all">all</span> |<span class="uncheck-all">none</span>
+              <button class="btn btn-light btn-sm" (click)="checkAll('aircraftClasses')">all</button>
+              <span> | </span>
+              <button class="btn btn-light btn-sm" (click)="uncheckAll('aircraftClasses')">none</button>
               <div class="offset-1">
               <div class="form-check-inline" *ngFor="let klass of aircraftClasses">
-                <label class="form-check-label"><input class="form-check-input"  type="checkbox" name="air-class" [value]="klass.value" checked="checked">{{klass.name}}</label>
+                <label class="form-check-label">
+                  <input class="form-check-input"  type="checkbox" name="air-class" [value]="klass.value" [checked]="klass.checked" (change)="klass.checked = !klass.checked">
+                  {{klass.name}}
+                </label>
               </div>
               </div>
             </div>
@@ -75,20 +98,25 @@
         </div>
         <div class="mb-2" id="status-filters">
           <div class="filter-label">Status:
-            <span class="check-all">all</span> | <span class="uncheck-all">none</span>
+            <button class="btn btn-light btn-sm" (click)="checkAll('status')">all</button>
+            <span> | </span>
+            <button class="btn btn-light btn-sm" (click)="uncheckAll('status')">none</button>
             <div class="offset-1">
             <div class="form-check-inline" *ngFor="let status of status">
-              <label class="form-check-label"><input class="form-check-input"  type="checkbox" name="status" [value]="status.value" checked="checked">{{status.name}}</label>
+              <label class="form-check-label">
+                <input class="form-check-input"  type="checkbox" name="status" [value]="status.value" [checked]="status.checked" (change)="status.checked = !status.checked">
+                {{status.name}}
+              </label>
             </div>
             </div>
           </div>
         </div>
         <div class="mb-2" id="battle-filter">
           <div class="filter-label">min battles:
-            <input type="number" class="col-md-1 form-text" [value]="slider.value!" min="1" #number ngModel>
+            <input type="number" class="col-md-1 form-text" min="1" [(ngModel)]="minBattles" name="battleNumber">
             <div class="d-flex justify-content-center flex-nowrap">
             <span>1</span>
-            <input class="form-range w-75" type="range" min="1" max="200" ngModel #slider step="1" value="1" [value]="number.value">
+            <input class="form-range w-75" type="range" min="1" max="200" [(ngModel)]="minBattles" name="battleSlider">
             <span>200</span>
             </div>
           </div>
@@ -100,7 +128,9 @@
     </div>
   </div>
 </div>
+<!--END OF FILTERS-->
 
+<!--VEHICLE TABLE-->
 <div class="container-fluid">
   <div class="table-responsive">
     <table class="table table-striped table-hover" id="sortTable">
@@ -138,14 +168,14 @@
       </tr>
       <tbody>
       <tr *ngFor="let v of filteredVehicles | async; let i = index">
-        <td class="number">{{i+1}}</td>
+        <td class="text-md-start">{{i+1}}</td>
         <td class="text-md-center">{{v.vehicle.rank}}</td>
-        <td><img src="/assets/flags/{{v.vehicle.nation}}_flag.png" width="40" height="20"></td>
+        <td class="text-md-center"><img src="/assets/flags/{{v.vehicle.nation}}_flag.png" width="40" height="20"></td>
         <td class="text-md-end" [hidden]="!mode.endsWith('ab')">{{v.vehicle.arcade_br}}</td>
         <td class="text-md-end" [hidden]="!mode.endsWith('rb')">{{v.vehicle.realistic_br}}</td>
         <td class="text-md-end" [hidden]="!mode.endsWith('sb')">{{v.vehicle.simulation_br}}</td>
         <td><img src="/assets/vehicle_icons/{{v.vehicle.klass}}_icon.png" width="40" height="20"></td>
-        <td><a href="vehicle/{{v.vehicle.name}}">{{v.vehicle.name}}</a></td>
+        <td><a class="link-dark" href="vehicle/{{v.vehicle.vehicle_id}}">{{v.vehicle.name}}</a></td>
         <td class="text-md-end">{{v.wins}}</td>
         <td class="text-md-end">{{v.battles}}</td>
         <td class="text-md-end">{{(v.wins/v.battles*100).toFixed(2).substr(0,5)}}</td>
@@ -160,3 +190,4 @@
     </table>
   </div>
 </div>
+<!--END OF VEHICLE TABLE-->

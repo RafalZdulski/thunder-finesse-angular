@@ -1,0 +1,9 @@
+.col-xs-1{
+  min-width: 65px;
+}
+
+/******        FILTERS         ******/
+#filters-btn::before {content: " show "}
+#filters-btn::after {content: " \25bc "}
+#filters-btn.active::before {content: " hide "}
+#filters-btn.active::after {content: " \25b2 "}

@@ -1,7 +1,7 @@
 <div class="container mb-3">
   <div class="row mb-3">
     <div class="col-sm offset-1">
-      <h2><a href="player/{{login}}">{{login}}</a></h2>
+      <h2><a class="link-dark" href="player/{{login}}">{{login}}</a></h2>
     </div>
     <div class="col-sm-6">
     </div>
@@ -11,9 +11,9 @@
   </div>
   <div class="tab-bar">
     <ul class="nav nav-tabs">
-      <li class="nav-item"><a class="nav-link" href="player/{{login}}">Dashboard</a></li>
-      <li class="nav-item"><a class="nav-link" href="player/{{login}}/graphs">Graphs</a></li>
-      <li class="nav-item"><a class="nav-link active" href="player/{{login}}/vehicles?mode=ground_rb">Vehciles</a></li>
+      <li class="nav-item"><a class="nav-link" [ngClass]="{'active' : subpage == 'dashboard'}" href="player/{{login}}">Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" [ngClass]="{'active' : subpage == 'graphs'}" href="player/{{login}}/graphs?mode=ground_rb">Graphs</a></li>
+      <li class="nav-item"><a class="nav-link" [ngClass]="{'active' : subpage == 'vehicles'}" href="player/{{login}}/vehicles?mode=ground_rb">Vehicles</a></li>
     </ul>
   </div>
 </div>

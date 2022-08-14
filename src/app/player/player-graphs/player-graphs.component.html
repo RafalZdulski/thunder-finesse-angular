@@ -1,0 +1,12 @@
+<app-player-navbar></app-player-navbar>
+<!--MODE TAB-BAR-->
+<div class="container mb-3">
+  <div class="tab-bar">
+    <ul class="nav nav-tabs">
+      <li *ngFor="let m of modes" class="nav-item">
+        <a class="nav-link" href="/player/{{login}}/graphs?mode={{m.value}}" [ngClass]="{'active' : m.value==mode}">{{m.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--END OF MODE TAB-BAR-->

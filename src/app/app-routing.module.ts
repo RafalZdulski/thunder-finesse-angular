@@ -24,11 +24,11 @@ const routes: Routes = [
     component: PlayerVehiclesComponent
   },
   {
-    path: 'vehicles/:type/',
+    path: 'vehicles/:type',
     component: VehiclesListComponent
   },
   {
-    path: 'vehicles/:vehicle_id',
+    path: 'vehicle/:vehicle_id',
     component: VehicleStatsComponent
   }
 

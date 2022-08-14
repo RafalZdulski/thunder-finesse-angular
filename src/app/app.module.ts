@@ -15,7 +15,6 @@ import { SortTableDirective } from './directives/sort-table.directive';
 import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
 import { PlayerGraphsComponent } from './player/player-graphs/player-graphs.component';
 import { VehicleStatsComponent } from './vehicles/vehicle-stats/vehicle-stats.component';
-import { VehiclesComponent } from './vehicles/vehicles.component';
 import { VehiclesListComponent } from './vehicles/vehicles-list/vehicles-list.component';
 
 @NgModule({
