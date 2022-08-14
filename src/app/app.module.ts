@@ -11,6 +11,12 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { PlayerNavbarComponent } from './player/player-navbar/player-navbar.component';
 import { PageNavbarComponent } from './page-navbar/page-navbar.component';
+import { SortTableDirective } from './directives/sort-table.directive';
+import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
+import { PlayerGraphsComponent } from './player/player-graphs/player-graphs.component';
+import { VehicleStatsComponent } from './vehicles/vehicle-stats/vehicle-stats.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+import { VehiclesListComponent } from './vehicles/vehicles-list/vehicles-list.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +24,11 @@ import { PageNavbarComponent } from './page-navbar/page-navbar.component';
     PlayerVehiclesComponent,
     PlayerNavbarComponent,
     PageNavbarComponent,
+    SortTableDirective,
+    PlayerDashboardComponent,
+    PlayerGraphsComponent,
+    VehicleStatsComponent,
+    VehiclesListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,142 @@
+<div class="container">
+  <div class="m-5">
+    <h1>{{vehicleInfo.name}}</h1>
+  </div>
+  <div class="row mb-4">
+    <div class="col col-md-5 offset-1">
+      <img class="card-img figure-img rounded-5" [src]="vehicleInfo.picture" >
+    </div>
+    <div class="col col-md-5 m-3 offset-1">
+      <div class="row">
+        <div class="col col-sm-6"><h5>Nation:</h5></div>
+        <div class="col col-6 col-sm-5 text-md-end">{{vehicleInfo.nation}}</div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-6"><h5>Role:</h5></div>
+        <div class="col col-6 col-sm-5 text-md-end" text-md-end>{{vehicleInfo.klass}}</div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-6"><h5>Rank:</h5></div>
+        <div class="col col-6 col-sm-5 text-md-end">{{vehicleInfo.rank}}</div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-6"><h5>Status:</h5></div>
+        <div class="col col-6 col-sm-5 text-md-end">{{vehicleInfo.status}}</div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-6">
+          <h5>Battle ratings:</h5>
+        </div>
+        <ul class="col col-sm6">
+          <li>
+            <div class="row">
+              <div class="col col-sm-6">Arcade: </div><div class="col col-sm-4 text-md-end">{{vehicleInfo.arcade_br}}</div>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <div class="col col-sm-6">Realistic: </div><div class="col col-sm-4 text-md-end">{{vehicleInfo.realistic_br}}</div>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <div class="col col-sm-6">Simulation: </div><div class="col col-sm-4 text-md-end">{{vehicleInfo.simulation_br}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="ms-5 me-5">
+    <div class="row row-cols-md-3">
+      <div class="col" *ngFor="let mode of vehicleModeStats; let i = index">
+        <h5 class="text-md-center">{{mode.mode}} battles</h5>
+        <ul>
+          <li class="mb-1">
+            <div class="row" (click)="showWins[i] = !showWins[i]">
+              <div class="col col-md-8">win ratio: </div>
+              <div class="col col-md-4 text-md-end">{{(mode.wins/mode.battles*100).toFixed(2)}}%</div>
+            </div>
+            <div [hidden]="!showWins[i]">
+              <div class="row">
+                <div class="col col-md-6 offset-1">wins: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{mode.wins}}</div>
+              </div>
+              <div class="row">
+                <div class="col col-md-6 offset-1">battles: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{mode.battles}}</div>
+              </div>
+            </div>
+          </li>
+          <li class="mb-1">
+            <div class="row" (click)="showKillsRatios[i] = !showKillsRatios[i]">
+              <div class="col col-md-8">kills/death ratio: </div>
+              <div class="col col-md-4 text-md-end">{{((mode.air_kills+mode.ground_kills)/mode.battles).toFixed(2)}}</div>
+            </div>
+            <div [hidden]="!showKillsRatios[i]">
+              <div class="row">
+                <div class="col col-md-6 offset-1">air kills/death: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{(mode.air_kills/mode.battles).toFixed(2)}}</div>
+              </div>
+              <div class="row">
+                <div class="col col-md-6 offset-1">ground kills/death: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{(mode.ground_kills/mode.battles).toFixed(2)}}</div>
+              </div>
+            </div>
+          </li>
+          <li class="mb-1">
+            <div class="row" (click)="showSpawnsRatios[i] = !showSpawnsRatios[i]">
+              <div class="col col-md-8">kills/spawns ratio: </div>
+              <div class="col col-md-4 text-md-end">{{((mode.air_kills+mode.ground_kills)/mode.spawns).toFixed(2)}}</div>
+            </div>
+            <div [hidden]="!showSpawnsRatios[i]">
+              <div class="row">
+                <div class="col col-md-6 offset-1">air kills/spawns: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{(mode.air_kills/mode.spawns).toFixed(2)}}</div>
+              </div>
+              <div class="row">
+                <div class="col col-md-6 offset-1">ground kills/spawns: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{(mode.ground_kills/mode.spawns).toFixed(2)}}</div>
+              </div>
+            </div>
+          </li>
+          <li class="mb-1">
+            <div class="row" (click)="showKills[i] = !showKills[i]">
+              <div class="col col-md-8">kills: </div>
+              <div class="col col-md-4 text-md-end">{{(mode.air_kills+mode.ground_kills)}}</div>
+            </div>
+            <div [hidden]="!showKills[i]">
+              <div class="row">
+                <div class="col col-md-6 offset-1">air kills/spawns: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{mode.air_kills}}</div>
+              </div>
+              <div class="row">
+                <div class="col col-md-6 offset-1">ground kills/spawns: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{mode.ground_kills}}</div>
+              </div>
+            </div>
+          </li>
+          <li class="mb-1">
+            <div class="row" (click)="showBattles[i] = !showBattles[i]">
+              <div class="col col-md-8">battles: </div>
+              <div class="col col-md-4 text-md-end">{{mode.battles}}</div>
+            </div>
+            <div [hidden]="!showBattles[i]">
+              <div class="row">
+                <div class="col col-md-6 offset-1">spawns: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{mode.spawns}}</div>
+              </div>
+              <div class="row">
+                <div class="col col-md-6 offset-1">deaths: </div>
+                <div class="col col-6 col-md-4 text-md-end">{{mode.deaths}}</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
