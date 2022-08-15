@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-page-navbar',
@@ -8,10 +9,11 @@ import { Location } from '@angular/common';
 })
 export class PageNavbarComponent implements OnInit {
 
-  login?: string;
+  login!: string;
   page?: string;
 
-  constructor(private loc : Location) {
+  constructor(private loc: Location,
+              private router: Router) {
 
   }
 
@@ -19,12 +21,17 @@ export class PageNavbarComponent implements OnInit {
     this.setPage();
   }
 
+  //TODO refactor search player function
   search() {
-
+    if (this.login.trim().length == 0){
+      console.log("empty login");
+    }else{
+      this.router.navigate(['player/' + this.login]).then(r => window.location.reload());
+    }
   }
 
   setPage() {
-    if (this.loc.path().includes('vehicles'))
+    if (this.loc.path().includes('vehicles') || this.loc.path().includes('vehicle'))
       this.page = 'vehicles'
     else
       this.page = 'dashboard'
