@@ -3,9 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {VehicleService} from "../../../services/vehicle.service";
 import {VehicleStats} from "../../../dtos/vehicle-stats";
 import {map, Observable, of} from "rxjs";
-import {aircraftClasses, brs, groundVehicleClasses, modes, nations, ranks, status} from "src/app/player/player-vehicles/filters-consts";
+import {aircraftClasses, groundVehicleClasses, modes, nations, ranks, status} from "src/app/player/player-vehicles/filters-consts";
 import { PlayerVehiclesComponent } from 'src/app/player/player-vehicles/player-vehicles.component';
-import {PlayerVehicleStats} from "../../../dtos/player-vehicle-stats";
 import {VehicleInfo} from "../../../dtos/vehicle-info";
 import {romanToInt} from "../../../utils/roman-numerals";
 
@@ -99,8 +98,6 @@ export class VehiclesListComponent implements OnInit {
       this.mode = mode;
       this.sortDir = 1;
     }
-
-    console.log(this.sortDir + " " + this.sortedField + " " + this.mode)
 
     //TODO refactor sort function
     this.filteredVehicles.forEach(vehicles => {
