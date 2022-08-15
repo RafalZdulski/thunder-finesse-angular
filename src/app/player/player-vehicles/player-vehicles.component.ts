@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PlayerService} from "../../../services/player.service";
 import {PlayerVehicleStats} from "../../../dtos/player-vehicle-stats";
-import {map, Observable, of, toArray} from "rxjs";
+import {filter, map, Observable, of, toArray} from "rxjs";
 import {aircraftClasses, brs, groundVehicleClasses, modes, nations, ranks, status} from "src/app/player/player-vehicles/filters-consts";
+import {VehicleStats} from "../../../dtos/vehicle-stats";
+import {VehicleInfo} from "../../../dtos/vehicle-info";
 
 @Component({
   selector: 'app-player-vehicles',
@@ -33,8 +35,7 @@ export class PlayerVehiclesComponent implements OnInit {
       if (this.login == undefined)
         throw new Error("login cannot be empty");
     });
-
-    this.route.queryParams.subscribe(param => {
+    this.route.queryParams.subscribe(param =>{
       this.mode = param['mode'];
       if (this.mode == undefined)
         throw new Error("mode cannot be empty");
@@ -43,10 +44,7 @@ export class PlayerVehiclesComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerService.getPlayerVehiclesStats(this.login, this.mode).subscribe(data => {
-      console.log(data);
-      this.allVehicles = data.sort((v1, v2) => {
-          return v2.battles - v1.battles;
-        });
+      this.allVehicles = data.sort((v1, v2) => v2.battles - v1.battles);
       this.filteredVehicles = of(this.allVehicles).pipe();
       this.calculateSummary(this.filteredVehicles);
     });
@@ -100,8 +98,8 @@ export class PlayerVehiclesComponent implements OnInit {
   //****** FILTERS ********//
   hideFilters = true;
   //importing const form src/dtos/filters-consts.ts
-  modes = modes;
   ranks = ranks;
+  modes = modes;
   nations = nations;
   brs = brs;
   aircraftClasses = aircraftClasses;
@@ -125,15 +123,48 @@ export class PlayerVehiclesComponent implements OnInit {
       f.checked = false;
   }
 
+  resetFilters() {
+    this.checkAll('ranks');
+    this.checkAll('nations');
+    this.lowerBr = '1.0';
+    this.upperBr = '11.3';
+    this.checkAll('aircraftClasses');
+    this.checkAll('groundVehicleClasses');
+    this.checkAll('status');
+    this.minBattles = 1;
+    this.filteredVehicles = of(this.allVehicles).pipe();
+  }
+
   //TODO implement filtering
   filterList() {
-    console.log(this.ranks.filter(f => f.checked))
-    console.log(this.nations.filter(f => f.checked))
-    console.log(this.lowerBr + " - " + this.upperBr)
-    console.log(this.aircraftClasses.filter(r => r.checked))
-    console.log(this.groundVehicleClasses.filter(r => r.checked))
-    console.log(this.status.filter(r => r.checked))
-    console.log(this.minBattles)
+    this.filteredVehicles = of(this.allVehicles).pipe(map(vehicles => vehicles.filter(v =>
+      (this.ranks.filter(f => f.value == v.vehicle.rank && f.checked).length > 0) &&//ranks
+      (this.nations.filter(f => f.value == v.vehicle.nation && f.checked).length > 0) &&//nations
+      (this.filterBr(v.vehicle)) &&//brs
+      (this.filterRole(v)) &&//class/role
+      (this.status.filter(f => f.value == v.vehicle.status && f.checked).length > 0) &&//status
+      (v.battles >= this.minBattles)//min battles
+    )))
+  }
+
+  filterBr(v: VehicleInfo): boolean {
+      if (this.mode.endsWith('ab'))
+        return Number.parseFloat(v.arcade_br) >= Number.parseFloat(this.lowerBr) && Number.parseFloat(v.arcade_br) <= Number.parseFloat(this.upperBr);
+      else if (this.mode.endsWith('rb'))
+        return Number.parseFloat(v.realistic_br) >= Number.parseFloat(this.lowerBr) && Number.parseFloat(v.realistic_br) <= Number.parseFloat(this.upperBr);
+      else if (this.mode.endsWith('sb'))
+        return Number.parseFloat(v.simulation_br) >= Number.parseFloat(this.lowerBr) && Number.parseFloat(v.simulation_br) <= Number.parseFloat(this.upperBr);
+      else
+        throw new Error("mode doesnt end with ab/rb/sb");
+  }
+
+  filterRole(v: PlayerVehicleStats): boolean {
+    if (this.mode.startsWith('ground'))
+      return (this.groundVehicleClasses.filter(f => f.value == v.vehicle.klass && f.checked).length > 0);
+    else if (this.mode.startsWith('air'))
+      return (this.aircraftClasses.filter(f => f.value == v.vehicle.klass && f.checked).length > 0);
+    else throw new Error("mode doesnt start with ground/air");
   }
   //****** END OF FILTERS ********//
+
 }

@@ -13,12 +13,12 @@
 <!--END OF MODE TAB-BAR-->
 
 <!--FILTERS-->
-<div class="container-fluid ">
+<div class="container-fluid col-md-9 mx-auto">
   <div class="d-flex justify-content-center flex-nowrap m-3">
-    <button class="btn btn-outline-secondary col-md-9 mx-auto" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
+    <button class="btn btn-outline-secondary col-md-12" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
   </div>
   <div class="row">
-    <div [hidden]="hideFilters" class="col-md-9 mx-auto">
+    <div [hidden]="hideFilters" class="col-md-12">
       <form class="form-floating form-inline">
         <div class="mb-2">
           <div class="filter-label">Rank:
@@ -121,8 +121,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center flex-nowrap">
-          <button class="btn btn-primary col-sm-4" (click)="filterList()">filter</button>
+        <div class="d-flex flex-nowrap row container">
+          <div class="justify-content-end col-sm-2"></div>
+          <div class="justify-content-center col-sm-4 mx-auto">
+            <button class="btn btn-primary col-sm-12" (click)="filterList()">filter</button>
+          </div>
+          <div class="justify-content-end col-sm-2">
+            <button class="btn btn-outline-danger col-sm-12" (click)="resetFilters()">reset</button>
+          </div>
         </div>
       </form>
     </div>
@@ -142,15 +148,15 @@
         <th scope="col" class="text-md-center"><img src="/assets/icons/battle_rating_icon.png" alt="battle rating" width="36" height="36"/></th>
         <th scope="col" class="text-md-center">Class</th>
         <th scope="col" class="text-md-center">Name</th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/wins_icon.png" alt="victories" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/battles_icon.png" alt="battles" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/spawns_icon.png" alt="respawns" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/deaths_icon.png" alt="deaths" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/ground_kills_icon.png" alt="ground vehicles killed" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/air_kills_icon.png" alt="aircraft killed" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/kill_spawns_icon.png" alt="kills/spawn ratio" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/wins_icon.png" alt="victories" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/battles_icon.png" alt="battles" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/spawns_icon.png" alt="respawns" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/deaths_icon.png" alt="deaths" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/ground_kills_icon.png" alt="ground vehicles killed" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/air_kills_icon.png" alt="aircraft killed" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end"><img src="/assets/icons/kill_spawns_icon.png" alt="kills/spawn ratio" width="36" height="36"/></th>
       </tr>
       </thead>
       <tr id="summary-row">
@@ -171,9 +177,9 @@
         <td class="text-md-start">{{i+1}}</td>
         <td class="text-md-center">{{v.vehicle.rank}}</td>
         <td class="text-md-center"><img src="/assets/flags/{{v.vehicle.nation}}_flag.png" width="40" height="20"></td>
-        <td class="text-md-end" [hidden]="!mode.endsWith('ab')">{{v.vehicle.arcade_br}}</td>
-        <td class="text-md-end" [hidden]="!mode.endsWith('rb')">{{v.vehicle.realistic_br}}</td>
-        <td class="text-md-end" [hidden]="!mode.endsWith('sb')">{{v.vehicle.simulation_br}}</td>
+        <td class="text-md-center" [hidden]="!mode.endsWith('ab')">{{v.vehicle.arcade_br}}</td>
+        <td class="text-md-center" [hidden]="!mode.endsWith('rb')">{{v.vehicle.realistic_br}}</td>
+        <td class="text-md-center" [hidden]="!mode.endsWith('sb')">{{v.vehicle.simulation_br}}</td>
         <td><img src="/assets/vehicle_icons/{{v.vehicle.klass}}_icon.png" width="40" height="20"></td>
         <td><a class="link-dark" href="vehicle/{{v.vehicle.vehicle_id}}">{{v.vehicle.name}}</a></td>
         <td class="text-md-end">{{v.wins}}</td>
