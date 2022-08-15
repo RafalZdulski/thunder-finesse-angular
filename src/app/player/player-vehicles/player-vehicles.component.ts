@@ -6,6 +6,9 @@ import {filter, map, Observable, of, toArray} from "rxjs";
 import {aircraftClasses, brs, groundVehicleClasses, modes, nations, ranks, status} from "src/app/player/player-vehicles/filters-consts";
 import {VehicleStats} from "../../../dtos/vehicle-stats";
 import {VehicleInfo} from "../../../dtos/vehicle-info";
+import {isNumber} from "@ng-bootstrap/ng-bootstrap/util/util";
+import {Player} from "../../../dtos/player";
+import {romanToInt} from "../../../utils/roman-numerals";
 
 @Component({
   selector: 'app-player-vehicles',
@@ -65,31 +68,48 @@ export class PlayerVehiclesComponent implements OnInit {
 
 
   //****** TABLE SORTING ********//
-
-  // sort = (v1: PlayerVehicleStats, v2: PlayerVehicleStats, field: string) => {
-  //   let key = field as keyof PlayerVehicleStats;
-  //   const nameA = v1[key];
-  //   const nameB = v2[key];
-  //   return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-  // }
-
-  //TODO implement sorting by clicking table headers
   sortDir = 1;
-  sortedField = "";
-  sortByField(field: string){
+  sortedField = "battles";
+  sortByField(field: string) {
     if (this.sortedField == field)
-      this.sortDir *= -1;
+      this.sortDir = -this.sortDir;
     if (this.sortedField != field){
       this.sortedField = field
       this.sortDir = 1;
     }
-    this.filteredVehicles = this.filteredVehicles.pipe(map(data =>
-      data.sort((v1, v2) => {
-        let key = field as keyof PlayerVehicleStats;
-        const nameA = v1[key];
-        const nameB = v2[key];
-        return (nameA < nameB) ? -this.sortDir : (nameA > nameB) ? this.sortDir : 0;
-      })));
+
+    console.log(this.sortedField)
+
+    //TODO refactor sort function
+    this.filteredVehicles.forEach(vehicles => {
+      vehicles.sort((a, b) => {
+        return this.compare(a,b,this.sortedField);
+      });
+      this.filteredVehicles = of(vehicles).pipe();
+    })
+  }
+
+  compare(a:PlayerVehicleStats, b: PlayerVehicleStats, field: string): number {
+    switch (field){
+      case 'rank':
+        return this.sortDir * (romanToInt(b.vehicle.rank) - romanToInt(a.vehicle.rank));
+      case 'nation': case 'name': case 'klass':
+        return this.sortDir * a.vehicle[field].localeCompare(b.vehicle[field]);
+      case 'air_ab': case 'ground_ab':
+        return this.sortDir * (Number.parseFloat(b.vehicle.arcade_br) - Number.parseFloat(a.vehicle.arcade_br));
+      case 'air_rb': case 'ground_rb':
+        return this.sortDir * (Number.parseFloat(b.vehicle.realistic_br) - Number.parseFloat(a.vehicle.realistic_br));
+      case 'air_sb': case 'ground_sb':
+        return this.sortDir * (Number.parseFloat(b.vehicle.simulation_br) - Number.parseFloat(a.vehicle.simulation_br));
+      case 'win-ratio':
+        return this.sortDir * (b.wins/b.battles - a.wins/a.battles);
+      case 'kd-ratio':
+        return this.sortDir * ((b.air_kills+b.ground_kills)/b.deaths - (a.air_kills+a.ground_kills)/a.deaths);
+      case 'ks-ratio':
+        return this.sortDir * ((b.air_kills+b.ground_kills)/b.spawns - (a.air_kills+a.ground_kills)/a.spawns);
+      default: // @ts-ignore //rest of fields like wins, battles
+        return this.sortDir * (b[field] - a[field]);
+    }
   }
   //****** END OF TABLE SORTING ********//
 
@@ -135,7 +155,6 @@ export class PlayerVehiclesComponent implements OnInit {
     this.filteredVehicles = of(this.allVehicles).pipe();
   }
 
-  //TODO implement filtering
   filterList() {
     this.filteredVehicles = of(this.allVehicles).pipe(map(vehicles => vehicles.filter(v =>
       (this.ranks.filter(f => f.value == v.vehicle.rank && f.checked).length > 0) &&//ranks

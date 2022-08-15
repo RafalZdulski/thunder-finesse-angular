@@ -143,20 +143,34 @@
       <thead>
       <tr>
         <th scope="col" class="text-md-start"># </th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/rank_icon.png" alt="rank" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/world_icon.png" alt="nation" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center"><img src="/assets/icons/battle_rating_icon.png" alt="battle rating" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center">Class</th>
-        <th scope="col" class="text-md-center">Name</th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/wins_icon.png" alt="victories" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/battles_icon.png" alt="battles" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/spawns_icon.png" alt="respawns" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/deaths_icon.png" alt="deaths" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/ground_kills_icon.png" alt="ground vehicles killed" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/air_kills_icon.png" alt="aircraft killed" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end"><img src="/assets/icons/kill_spawns_icon.png" alt="kills/spawn ratio" width="36" height="36"/></th>
+        <th scope="col" class="text-md-center" (click)="sortByField('rank')" [ngClass]="{'sorted':sortedField=='rank', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/rank_icon.png" alt="rank" width="36" height="36"/></th>
+        <th scope="col" class="text-md-center" (click)="sortByField('nation')" [ngClass]="{'sorted':sortedField=='nation', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/world_icon.png" alt="nation" width="36" height="36"/></th>
+        <th scope="col" class="text-md-center" (click)="sortByField(mode)" [ngClass]="{'sorted':sortedField==mode, 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/battle_rating_icon.png" alt="battle rating" width="36" height="36"/></th>
+        <th scope="col" class="text-md-center" (click)="sortByField('klass')" [ngClass]="{'sorted':sortedField=='klass', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          Role</th>
+        <th scope="col" class="text-md-center" (click)="sortByField('name')" [ngClass]="{'sorted':sortedField=='name', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          Name</th>
+        <th scope="col" class="text-md-end" (click)="sortByField('wins')" [ngClass]="{'sorted':sortedField=='wins', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/wins_icon.png" alt="victories" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('battles')" [ngClass]="{'sorted':sortedField=='battles', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/battles_icon.png" alt="battles" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('win-ratio')" [ngClass]="{'sorted':sortedField=='win-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('spawns')" [ngClass]="{'sorted':sortedField=='spawns', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/spawns_icon.png" alt="respawns" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('deaths')" [ngClass]="{'sorted':sortedField=='deaths', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/deaths_icon.png" alt="deaths" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('ground_kills')" [ngClass]="{'sorted':sortedField=='ground_kills', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/ground_kills_icon.png" alt="ground vehicles killed" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('air_kills')" [ngClass]="{'sorted':sortedField=='air_kills', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/air_kills_icon.png" alt="aircraft killed" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('kd-ratio')" [ngClass]="{'sorted':sortedField=='kd-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="36" height="36"/></th>
+        <th scope="col" class="text-md-end" (click)="sortByField('ks-ratio')" [ngClass]="{'sorted':sortedField=='ks-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/kill_spawns_icon.png" alt="kills/spawn ratio" width="36" height="36"/></th>
       </tr>
       </thead>
       <tr id="summary-row">
