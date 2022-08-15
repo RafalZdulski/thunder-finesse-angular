@@ -11,12 +11,13 @@
   </div>
 </div>
 
-<div class="container-fluid ">
+<!--FILTERS-->
+<div class="container-fluid col-md-9 mx-auto mb-4">
   <div class="d-flex justify-content-center flex-nowrap m-3">
-    <button class="btn btn-outline-secondary col-md-9 mx-auto" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
+    <button class="btn btn-outline-secondary col-md-12" id="filters-btn" (click)="hideFilters = !hideFilters" [ngClass]="{'active' : !hideFilters}">filters</button>
   </div>
   <div class="row">
-    <div [hidden]="hideFilters" class="col-md-9 mx-auto">
+    <div [hidden]="hideFilters" class="col-md-12">
       <form class="form-floating form-inline">
         <div class="mb-2">
           <div class="filter-label">Rank:
@@ -48,22 +49,8 @@
             </div>
           </div>
         </div>
-        <div class="mb-2" id="br-filter">
-          <div class="filter-label">Battle rating:</div>
-          <div class="offset-1 row-cols-sm-4">
-            <div class="d-lg-inline-flex form-check-inline">
-              <select class="form-select form-select-sm col" name="lower-br" [(ngModel)]="lowerBr">
-                <option *ngFor="let br of brs; first as firstElement" [value]="br.value" [selected]="firstElement">{{br.name}}</option>
-              </select>
-              <div class="col justify-content-center d-lg-inline-flex">-</div>
-              <select class="form-select form-select-sm col" name="upper-br" [(ngModel)]="upperBr">
-                <option *ngFor="let br of brs; last as lastElement" [value]="br.value" [selected]="lastElement">{{br.name}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
         <div class="mb-2" id="class-filters" >
-          <div [hidden]="(type !== 'ground')" class="filters" id="army-class-filter" >
+          <div [hidden]="!type.startsWith('ground')" class="filters" id="army-class-filter" >
             <div class="filter-label">Class:
               <button class="btn btn-light btn-sm" (click)="checkAll('groundVehicleClasses')">all</button>
               <span> | </span>
@@ -78,7 +65,7 @@
               </div>
             </div>
           </div>
-          <div [hidden]="(type !== 'air')" class="mb-2" id="aviation-class-filter" >
+          <div [hidden]="!type.startsWith('air')" class="mb-2" id="aviation-class-filter" >
             <div class="filter-label">Class:
               <button class="btn btn-light btn-sm" (click)="checkAll('aircraftClasses')">all</button>
               <span> | </span>
@@ -109,13 +96,20 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center flex-nowrap">
-          <button class="btn btn-primary col-sm-4" (click)="filterList()">filter</button>
+        <div class="d-flex flex-nowrap row container">
+          <div class="justify-content-end col-sm-2"></div>
+          <div class="justify-content-center col-sm-4 mx-auto">
+            <button class="btn btn-primary col-sm-12" (click)="filterList()">filter</button>
+          </div>
+          <div class="justify-content-end col-sm-2">
+            <button class="btn btn-outline-danger col-sm-12" (click)="resetFilters()">reset</button>
+          </div>
         </div>
       </form>
     </div>
   </div>
 </div>
+<!--END OF FILTERS-->
 
 <div class="container-fluid">
   <div class="table-responsive">
@@ -156,7 +150,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let v of allVehicles | async; let i = index">
+      <tr *ngFor="let v of filteredVehicles | async; let i = index">
         <td class="text-md-start">{{i+1}}</td>
         <td class="text-md-center">{{v.vehicleInfo.rank}}</td>
         <td class="text-md-center"><img src="/assets/flags/{{v.vehicleInfo.nation}}_flag.png" width="40" height="20"></td>

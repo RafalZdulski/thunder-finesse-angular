@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {VehicleService} from "../../../services/vehicle.service";
 import {VehicleStats} from "../../../dtos/vehicle-stats";
-import {map, Observable} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {aircraftClasses, brs, groundVehicleClasses, modes, nations, ranks, status} from "src/app/player/player-vehicles/filters-consts";
 import { PlayerVehiclesComponent } from 'src/app/player/player-vehicles/player-vehicles.component';
+import {PlayerVehicleStats} from "../../../dtos/player-vehicle-stats";
+import {VehicleInfo} from "../../../dtos/vehicle-info";
 
 @Component({
   selector: 'app-vehicles-list',
@@ -13,8 +15,8 @@ import { PlayerVehiclesComponent } from 'src/app/player/player-vehicles/player-v
 })
 export class VehiclesListComponent implements OnInit {
   type!: string;
-  allVehicles: Observable<VehicleStats[]>;
-
+  allVehicles!: VehicleStats[];
+  filteredVehicles!: Observable<VehicleStats[]>;
 
   constructor(private route : ActivatedRoute,
               private vehicleService : VehicleService) {
@@ -23,29 +25,27 @@ export class VehiclesListComponent implements OnInit {
       if (this.type == undefined)
         throw new Error("type cannot be empty");
     });
-
-    this.allVehicles = this.vehicleService.getAllVehiclesStats(this.type)
-      .pipe(map( data => data.sort((a,b) =>
-        (b.arcade.battles+b.realistic.battles+b.simulation.battles) - (a.arcade.battles+a.realistic.battles+a.simulation.battles))
-    ))
-
   }
 
   ngOnInit(): void {
-
+    this.vehicleService.getAllVehiclesStats(this.type).subscribe( data => {
+        this.allVehicles = data.sort((a, b) =>
+          (b.arcade.battles + b.realistic.battles + b.simulation.battles)
+          - (a.arcade.battles + a.realistic.battles + a.simulation.battles));
+        this.filteredVehicles = of(this.allVehicles).pipe();
+      }
+    )
   }
 
   //****** FILTERS ********//
   hideFilters = true;
   //importing const form src/dtos/filters-consts.ts
-  modes = modes;
   ranks = ranks;
   nations = nations;
   brs = brs;
   aircraftClasses = aircraftClasses;
   groundVehicleClasses = groundVehicleClasses;
   status = status;
-  minBattles = 1;
   lowerBr = "1.0";
   upperBr = "11.3";
 
@@ -63,15 +63,30 @@ export class VehiclesListComponent implements OnInit {
       f.checked = false;
   }
 
-  //TODO implement filtering
+  resetFilters() {
+    this.checkAll('ranks');
+    this.checkAll('nations');
+    this.checkAll('aircraftClasses');
+    this.checkAll('groundVehicleClasses');
+    this.checkAll('status');
+    this.filteredVehicles = of(this.allVehicles).pipe();
+  }
+
   filterList() {
-    console.log(this.ranks.filter(f => f.checked))
-    console.log(this.nations.filter(f => f.checked))
-    console.log(this.lowerBr + " - " + this.upperBr)
-    console.log(this.aircraftClasses.filter(r => r.checked))
-    console.log(this.groundVehicleClasses.filter(r => r.checked))
-    console.log(this.status.filter(r => r.checked))
-    console.log(this.minBattles)
+    this.filteredVehicles = of(this.allVehicles).pipe(map(vehicles => vehicles.filter(v =>
+      (this.ranks.filter(f => f.value == v.vehicleInfo.rank && f.checked).length > 0) &&//ranks
+      (this.nations.filter(f => f.value == v.vehicleInfo.nation && f.checked).length > 0) &&//nations
+      (this.filterRole(v.vehicleInfo)) &&//class/role
+      (this.status.filter(f => f.value == v.vehicleInfo.status && f.checked).length > 0)//status
+    )))
+  }
+
+  filterRole(v: VehicleInfo): boolean {
+    if (this.type.startsWith('ground'))
+      return (this.groundVehicleClasses.filter(f => f.value == v.klass && f.checked).length > 0);
+    else if (this.type.startsWith('air'))
+      return (this.aircraftClasses.filter(f => f.value == v.klass && f.checked).length > 0);
+    else throw new Error("type doesnt start with ground/air");
   }
   //****** END OF FILTERS ********//
 
