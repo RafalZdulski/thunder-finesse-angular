@@ -1,7 +1,7 @@
 import {VehicleInfo} from "./vehicle-info";
 
 export interface VehicleStats {
-  vehicleInfo: VehicleInfo;
+  vehicle:     VehicleInfo;
   arcade:      VehicleModeStats;
   realistic:   VehicleModeStats;
   simulation:  VehicleModeStats;

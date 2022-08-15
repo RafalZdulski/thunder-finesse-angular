@@ -7,6 +7,7 @@ import {aircraftClasses, brs, groundVehicleClasses, modes, nations, ranks, statu
 import { PlayerVehiclesComponent } from 'src/app/player/player-vehicles/player-vehicles.component';
 import {PlayerVehicleStats} from "../../../dtos/player-vehicle-stats";
 import {VehicleInfo} from "../../../dtos/vehicle-info";
+import {romanToInt} from "../../../utils/roman-numerals";
 
 @Component({
   selector: 'app-vehicles-list',
@@ -30,8 +31,7 @@ export class VehiclesListComponent implements OnInit {
   ngOnInit(): void {
     this.vehicleService.getAllVehiclesStats(this.type).subscribe( data => {
         this.allVehicles = data.sort((a, b) =>
-          (b.arcade.battles + b.realistic.battles + b.simulation.battles)
-          - (a.arcade.battles + a.realistic.battles + a.simulation.battles));
+          (b.arcade.battles + b.realistic.battles + b.simulation.battles) - (a.arcade.battles + a.realistic.battles + a.simulation.battles));
         this.filteredVehicles = of(this.allVehicles).pipe();
       }
     )
@@ -42,12 +42,9 @@ export class VehiclesListComponent implements OnInit {
   //importing const form src/dtos/filters-consts.ts
   ranks = ranks;
   nations = nations;
-  brs = brs;
   aircraftClasses = aircraftClasses;
   groundVehicleClasses = groundVehicleClasses;
   status = status;
-  lowerBr = "1.0";
-  upperBr = "11.3";
 
   checkAll(filterName: string){
     let key = filterName as keyof PlayerVehiclesComponent;
@@ -74,10 +71,10 @@ export class VehiclesListComponent implements OnInit {
 
   filterList() {
     this.filteredVehicles = of(this.allVehicles).pipe(map(vehicles => vehicles.filter(v =>
-      (this.ranks.filter(f => f.value == v.vehicleInfo.rank && f.checked).length > 0) &&//ranks
-      (this.nations.filter(f => f.value == v.vehicleInfo.nation && f.checked).length > 0) &&//nations
-      (this.filterRole(v.vehicleInfo)) &&//class/role
-      (this.status.filter(f => f.value == v.vehicleInfo.status && f.checked).length > 0)//status
+      (this.ranks.filter(f => f.value == v.vehicle.rank && f.checked).length > 0) &&//ranks
+      (this.nations.filter(f => f.value == v.vehicle.nation && f.checked).length > 0) &&//nations
+      (this.filterRole(v.vehicle)) &&//class/role
+      (this.status.filter(f => f.value == v.vehicle.status && f.checked).length > 0)//status
     )))
   }
 
@@ -90,4 +87,44 @@ export class VehiclesListComponent implements OnInit {
   }
   //****** END OF FILTERS ********//
 
+  //****** TABLE SORTING ********//
+  sortDir = 1;
+  sortedField = "";
+  mode = ""
+  sortByField(field: string, mode:string) {
+    if (this.sortedField == field && this.mode == mode)
+      this.sortDir = -this.sortDir;
+    else{
+      this.sortedField = field;
+      this.mode = mode;
+      this.sortDir = 1;
+    }
+
+    console.log(this.sortDir + " " + this.sortedField + " " + this.mode)
+
+    //TODO refactor sort function
+    this.filteredVehicles.forEach(vehicles => {
+      vehicles.sort((a, b) => {
+        return this.compare(a,b,this.sortedField, mode);
+      });
+      this.filteredVehicles = of(vehicles).pipe();
+    })
+  }
+
+  compare(a:VehicleStats, b: VehicleStats, field: string, mode: string): number {
+    switch (field){
+      case 'rank':
+        return this.sortDir * (romanToInt(b.vehicle.rank) - romanToInt(a.vehicle.rank));
+      case 'nation': case 'name': case 'klass':
+        return this.sortDir * a.vehicle[field].localeCompare(b.vehicle[field]);
+      case 'battles': // @ts-ignore
+        return this.sortDir * (b[mode].battles - a[mode].battles);
+      case 'win-ratio': // @ts-ignore
+        return this.sortDir * (b[mode].wins/b[mode].battles - a[mode].wins/a[mode].battles);
+      case 'kd-ratio': // @ts-ignore
+        return this.sortDir * ((b[mode].air_kills+b[mode].ground_kills)/b[mode].deaths - (a[mode].air_kills+a[mode].ground_kills)/a[mode].deaths);
+      default: throw new Error("couldn't match field or mode");
+    }
+  }
+  //****** END OF TABLE SORTING ********//
 }

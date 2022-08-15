@@ -129,33 +129,59 @@
       <thead>
       <tr>
         <th scope="col" rowspan="2" class="text-md-start"># </th>
-        <th scope="col" rowspan="2" class="text-md-center"><img src="/assets/icons/rank_icon.png" alt="rank" width="36" height="36"/></th>
-        <th scope="col" rowspan="2" class="text-md-center"><img src="/assets/icons/world_icon.png" alt="nation" width="36" height="36"/></th>
-        <th scope="col" rowspan="2" class="text-md-center">Class</th>
-        <th scope="col" rowspan="2" class="text-md-center">Name</th>
+        <th scope="col" rowspan="2" class="text-md-center" (click)="sortByField('rank','')"
+            [ngClass]="{'sorted':sortedField=='rank', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/rank_icon.png" alt="rank" width="36" height="36"/></th>
+        <th scope="col" rowspan="2" class="text-md-center" (click)="sortByField('nation','')"
+            [ngClass]="{'sorted':sortedField=='nation', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/world_icon.png" alt="nation" width="36" height="36"/></th>
+        <th scope="col" rowspan="2" class="text-md-center"(click)="sortByField('klass','')"
+            [ngClass]="{'sorted':sortedField=='klass', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          Role</th>
+        <th scope="col" rowspan="2" class="text-md-center" (click)="sortByField('name','')"
+            [ngClass]="{'sorted':sortedField=='name', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          Name</th>
         <th colspan="3" class="pt-0 pb-0 text-md-center">Arcade</th>
         <th colspan="3" class="pt-0 pb-0 text-md-center">Realistic</th>
         <th colspan="3" class="pt-0 pb-0 text-md-center">Simulation</th>
       </tr>
       <tr class="">
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/battles_icon.png" alt="battles" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/battles_icon.png" alt="battles" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/battles_icon.png" alt="battles" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="24" height="24"/></th>
-        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center"><img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('battles','arcade')"
+            [ngClass]="{'sorted':sortedField=='battles'&&mode=='arcade', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/battles_icon.png" alt="battles" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('win-ratio','arcade')"
+            [ngClass]="{'sorted':sortedField=='win-ratio'&&mode=='arcade', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('kd-ratio','arcade')"
+            [ngClass]="{'sorted':sortedField=='kd-ratio'&&mode=='arcade', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('battles','realistic')"
+            [ngClass]="{'sorted':sortedField=='battles'&&mode=='realistic', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/battles_icon.png" alt="battles" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('win-ratio','simulation')"
+            [ngClass]="{'sorted':sortedField=='win-ratio'&&mode=='realistic', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('kd-ratio','realistic')"
+            [ngClass]="{'sorted':sortedField=='kd-ratio'&&mode=='realistic', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('battles','simulation')"
+            [ngClass]="{'sorted':sortedField=='battles'&&mode=='simulation', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/battles_icon.png" alt="battles" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('win-ratio','simulation')"
+            [ngClass]="{'sorted':sortedField=='win-ratio'&&mode=='simulation', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="24" height="24"/></th>
+        <th scope="col" class="col-xs-1 pt-0 pb-0 text-md-center" (click)="sortByField('kd-ratio','simulation')"
+            [ngClass]="{'sorted':sortedField=='kd-ratio'&&mode=='simulation', 'asc': sortDir==1, 'desc': sortDir==-1}">
+          <img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="24" height="24"/></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let v of filteredVehicles | async; let i = index">
         <td class="text-md-start">{{i+1}}</td>
-        <td class="text-md-center">{{v.vehicleInfo.rank}}</td>
-        <td class="text-md-center"><img src="/assets/flags/{{v.vehicleInfo.nation}}_flag.png" width="40" height="20"></td>
-        <td><img src="/assets/vehicle_icons/{{v.vehicleInfo.klass}}_icon.png" width="40" height="20"></td>
-        <td><a class="link-dark" href="vehicle/{{v.vehicleInfo.vehicle_id}}">{{v.vehicleInfo.name}}</a></td>
+        <td class="text-md-center">{{v.vehicle.rank}}</td>
+        <td class="text-md-center"><img src="/assets/flags/{{v.vehicle.nation}}_flag.png" width="40" height="20"></td>
+        <td><img src="/assets/vehicle_icons/{{v.vehicle.klass}}_icon.png" width="40" height="20"></td>
+        <td><a class="link-dark" href="vehicle/{{v.vehicle.vehicle_id}}">{{v.vehicle.name}}</a></td>
         <td class="text-md-end">{{v.arcade.battles}}</td>
         <td class="text-md-end">{{(v.arcade.wins/v.arcade.battles*100).toFixed(2).substr(0,5)}}</td>
         <td class="text-md-end">{{((v.arcade.ground_kills+v.arcade.air_kills)/v.arcade.deaths).toFixed(2)}}</td>

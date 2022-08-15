@@ -30,7 +30,7 @@ export class VehicleStatsComponent implements OnInit {
     });
 
     this.vehicleService.getVehicleStats(this.vehicleId).subscribe(data => {
-      this.vehicleInfo = data.vehicleInfo;
+      this.vehicleInfo = data.vehicle;
       this.vehicleModeStats = Array.of(data.arcade, data.realistic, data.simulation);
       this.vehicleModeStats[0].mode = 'Arcade'
       this.vehicleModeStats[1].mode = 'Realistic'
