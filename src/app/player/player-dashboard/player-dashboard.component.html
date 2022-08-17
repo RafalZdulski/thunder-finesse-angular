@@ -1,2 +1,58 @@
 <app-player-navbar></app-player-navbar>
-<p>player-dashboard works!</p>
+<div class="container">
+  <div class="row">
+    <div class="offset-1 col-md-5">
+      <div id="battle-donut-chart" class="d-flex align-content-center" ></div>
+    </div>
+    <div class="col-md-5">
+      <div>
+        <h5>played modes</h5>
+        <ul>
+          <li class="mb-3">
+            <div class="row">
+              <div class="col col-md-6">Arcade: </div>
+              <div class="col col-md-6 text-md-end">{{(playerStats.air_ab.battles + playerStats.ground_ab.battles).toLocaleString("en")}}</div>
+            </div>
+            <div class="row">
+              <div class="col col-md-5 offset-1">Air: </div>
+              <div class="col col-md-5 text-md-end">{{playerStats.air_ab.battles.toLocaleString("en")}}</div>
+            </div>
+            <div class="row">
+              <div class="col col-md-5 offset-1">Ground: </div>
+              <div class="col col-md-5 text-md-end">{{playerStats.ground_ab.battles.toLocaleString("en")}}</div>
+            </div>
+          </li>
+          <li class="mb-3">
+            <div class="row">
+              <div class="col col-md-6">Realistic: </div>
+              <div class="col col-md-6 text-md-end">{{(playerStats.air_rb.battles + playerStats.ground_rb.battles).toLocaleString("en")}}</div>
+            </div>
+            <div class="row">
+              <div class="col col-md-5 offset-1">Air: </div>
+              <div class="col col-md-5 text-md-end">{{playerStats.air_rb.battles.toLocaleString("en")}}</div>
+            </div>
+            <div class="row">
+              <div class="col col-md-5 offset-1">Ground: </div>
+              <div class="col col-md-5 text-md-end">{{playerStats.ground_rb.battles.toLocaleString("en")}}</div>
+            </div>
+          </li>
+          <li class="mb-3">
+            <div class="row">
+              <div class="col col-md-6">Simulation: </div>
+              <div class="col col-md-6 text-md-end">{{(playerStats.air_sb.battles + playerStats.ground_sb.battles).toLocaleString("en")}}</div>
+            </div>
+            <div class="row">
+              <div class="col col-md-5 offset-1">Air: </div>
+              <div class="col col-md-5 text-md-end">{{playerStats.air_sb.battles.toLocaleString("en")}}</div>
+            </div>
+            <div class="row">
+              <div class="col col-md-5 offset-1">Ground: </div>
+              <div class="col col-md-5 text-md-end">{{playerStats.ground_sb.battles.toLocaleString("en")}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>

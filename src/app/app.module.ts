@@ -15,6 +15,9 @@ import { PlayerDashboardComponent } from './player/player-dashboard/player-dashb
 import { PlayerGraphsComponent } from './player/player-graphs/player-graphs.component';
 import { VehicleStatsComponent } from './vehicles/vehicle-stats/vehicle-stats.component';
 import { VehiclesListComponent } from './vehicles/vehicles-list/vehicles-list.component';
+import {NgApexchartsModule} from "ng-apexcharts";
+import {CommonModule} from "@angular/common";
+import {VehicleService} from "../services/vehicle.service";
 
 @NgModule({
   declarations: [
@@ -34,9 +37,12 @@ import { VehiclesListComponent } from './vehicles/vehicles-list/vehicles-list.co
     FormsModule,
     HttpClientModule,
     NgbModule,
+    NgApexchartsModule,
+    CommonModule,
   ],
   providers: [
-    PlayerService
+    PlayerService,
+    VehicleService
   ],
   bootstrap: [AppComponent]
 })

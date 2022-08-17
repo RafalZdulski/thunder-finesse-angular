@@ -10,6 +10,8 @@
   },
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts4": "^4.10.26",
+    "@amcharts/amcharts5": "^5.2.16",
     "@angular-slider/ngx-slider": "^2.0.4",
     "@angular/animations": "^14.1.0",
     "@angular/common": "^14.1.0",
@@ -23,8 +25,11 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
     "@popperjs/core": "^2.10.2",
+    "apexcharts": "^3.35.4",
     "bootstrap": "^5.2.0",
     "jquery": "^3.6.0",
+    "ng-apexcharts": "^1.7.1",
+    "ngx-doughnut-chart": "^0.0.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

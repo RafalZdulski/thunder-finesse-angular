@@ -2,12 +2,12 @@ import {VehicleInfo} from "./vehicle-info";
 
 export interface VehicleStats {
   vehicle:     VehicleInfo;
-  arcade:      VehicleModeStats;
-  realistic:   VehicleModeStats;
-  simulation:  VehicleModeStats;
+  arcade:      BaseStats;
+  realistic:   BaseStats;
+  simulation:  BaseStats;
 }
 
-export interface VehicleModeStats {
+export interface BaseStats {
   battles:      number;
   spawns:       number;
   deaths:       number;

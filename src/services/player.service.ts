@@ -13,8 +13,8 @@ export class PlayerService {
     this.usersUrl = 'http://localhost:8080/player/';
   }
 
-  public getPlayerModesStats(login : string) : Observable<PlayerModeStats[]> {
-    return this.http.get<PlayerModeStats[]>(this.usersUrl+login).pipe();
+  public getPlayerModesStats(login : string) : Observable<PlayerModeStats> {
+    return this.http.get<PlayerModeStats>(this.usersUrl+login).pipe();
   }
 
   public getPlayerVehiclesStats(login:string, mode:string) : Observable<PlayerVehicleStats[]>{
