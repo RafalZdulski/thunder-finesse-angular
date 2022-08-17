@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {PlayerService} from "../../../services/player.service";
 import { modes } from '../player-vehicles/filters-consts';
 
+
 @Component({
   selector: 'app-player-graphs',
   templateUrl: './player-graphs.component.html',
@@ -20,8 +21,7 @@ export class PlayerGraphsComponent implements OnInit {
       if (this.login == undefined)
         throw new Error("login cannot be empty");
     });
-
-    this.route.queryParams.subscribe(param => {
+    this.route.queryParams.subscribe(param =>{
       this.mode = param['mode'];
       if (this.mode == undefined)
         throw new Error("mode cannot be empty");

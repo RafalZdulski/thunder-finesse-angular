@@ -142,53 +142,53 @@
     <table class="table table-striped table-hover" id="sortTable">
       <thead>
       <tr>
-        <th scope="col" class="text-md-start"># </th>
-        <th scope="col" class="text-md-center" (click)="sortByField('rank')" [ngClass]="{'sorted':sortedField=='rank', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-start lp-col"># </th>
+        <th scope="col" class="text-md-center icon-col" (click)="sortByField('rank')" [ngClass]="{'sorted':sortedField=='rank', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/rank_icon.png" alt="rank" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center" (click)="sortByField('nation')" [ngClass]="{'sorted':sortedField=='nation', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-center icon-col" (click)="sortByField('nation')" [ngClass]="{'sorted':sortedField=='nation', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/world_icon.png" alt="nation" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center" (click)="sortByField(mode)" [ngClass]="{'sorted':sortedField==mode, 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-center icon-col" (click)="sortByField(mode)" [ngClass]="{'sorted':sortedField==mode, 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/battle_rating_icon.png" alt="battle rating" width="36" height="36"/></th>
-        <th scope="col" class="text-md-center" (click)="sortByField('klass')" [ngClass]="{'sorted':sortedField=='klass', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-center role-col" (click)="sortByField('klass')" [ngClass]="{'sorted':sortedField=='klass', 'asc': sortDir==1, 'desc': sortDir==-1}">
           Role</th>
-        <th scope="col" class="text-md-center" (click)="sortByField('name')" [ngClass]="{'sorted':sortedField=='name', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-center name-col" (click)="sortByField('name')" [ngClass]="{'sorted':sortedField=='name', 'asc': sortDir==1, 'desc': sortDir==-1}">
           Name</th>
-        <th scope="col" class="text-md-end" (click)="sortByField('wins')" [ngClass]="{'sorted':sortedField=='wins', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('wins')" [ngClass]="{'sorted':sortedField=='wins', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/wins_icon.png" alt="victories" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('battles')" [ngClass]="{'sorted':sortedField=='battles', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('battles')" [ngClass]="{'sorted':sortedField=='battles', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/battles_icon.png" alt="battles" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('win-ratio')" [ngClass]="{'sorted':sortedField=='win-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('win-ratio')" [ngClass]="{'sorted':sortedField=='win-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/win_ratio_icon.png" alt="win ratio" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('spawns')" [ngClass]="{'sorted':sortedField=='spawns', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('spawns')" [ngClass]="{'sorted':sortedField=='spawns', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/spawns_icon.png" alt="respawns" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('deaths')" [ngClass]="{'sorted':sortedField=='deaths', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('deaths')" [ngClass]="{'sorted':sortedField=='deaths', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/deaths_icon.png" alt="deaths" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('ground_kills')" [ngClass]="{'sorted':sortedField=='ground_kills', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('ground_kills')" [ngClass]="{'sorted':sortedField=='ground_kills', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/ground_kills_icon.png" alt="ground vehicles killed" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('air_kills')" [ngClass]="{'sorted':sortedField=='air_kills', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('air_kills')" [ngClass]="{'sorted':sortedField=='air_kills', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/air_kills_icon.png" alt="aircraft killed" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('kd-ratio')" [ngClass]="{'sorted':sortedField=='kd-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('kd-ratio')" [ngClass]="{'sorted':sortedField=='kd-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/kill_deaths_icon.png" alt="kills/death ratio" width="36" height="36"/></th>
-        <th scope="col" class="text-md-end" (click)="sortByField('ks-ratio')" [ngClass]="{'sorted':sortedField=='ks-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
+        <th scope="col" class="text-md-end icon-col" (click)="sortByField('ks-ratio')" [ngClass]="{'sorted':sortedField=='ks-ratio', 'asc': sortDir==1, 'desc': sortDir==-1}">
           <img src="/assets/icons/kill_spawns_icon.png" alt="kills/spawn ratio" width="36" height="36"/></th>
       </tr>
       </thead>
       <tr id="summary-row">
         <td class="text-md-start">{{(filteredVehicles | async)?.length}}</td>
         <td colspan="5" class="text-md-center">summary</td>
-        <td class="text-md-end">{{sumWins}}</td>
-        <td class="text-md-end">{{sumBattles}}</td>
+        <td class="text-md-end">{{sumWins.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{sumBattles.toLocaleString("en")}}</td>
         <td class="text-md-end">{{(sumWins/sumBattles*100).toFixed(2).substr(0,5)}}</td>
-        <td class="text-md-end">{{sumSpawns}}</td>
-        <td class="text-md-end">{{sumDeaths}}</td>
-        <td class="text-md-end">{{sumGroundKills}}</td>
-        <td class="text-md-end">{{sumAirKills}}</td>
+        <td class="text-md-end">{{sumSpawns.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{sumDeaths.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{sumGroundKills.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{sumAirKills.toLocaleString("en")}}</td>
         <td class="text-md-end">{{((sumGroundKills+sumAirKills)/sumDeaths).toFixed(2)}}</td>
         <td class="text-md-end">{{((sumGroundKills+sumAirKills)/sumDeaths).toFixed(2)}}</td>
       </tr>
       <tbody>
       <tr *ngFor="let v of filteredVehicles | async; let i = index">
-        <td class="text-md-start">{{i+1}}</td>
+        <td class="text-md-end">{{i+1}}</td>
         <td class="text-md-center">{{v.vehicle.rank}}</td>
         <td class="text-md-center"><img src="/assets/flags/{{v.vehicle.nation}}_flag.png" width="40" height="20"></td>
         <td class="text-md-center" [hidden]="!mode.endsWith('ab')">{{v.vehicle.arcade_br}}</td>
@@ -196,13 +196,13 @@
         <td class="text-md-center" [hidden]="!mode.endsWith('sb')">{{v.vehicle.simulation_br}}</td>
         <td><img src="/assets/vehicle_icons/{{v.vehicle.klass}}_icon.png" width="40" height="20"></td>
         <td><a class="link-dark" href="vehicle/{{v.vehicle.vehicle_id}}">{{v.vehicle.name}}</a></td>
-        <td class="text-md-end">{{v.wins}}</td>
-        <td class="text-md-end">{{v.battles}}</td>
+        <td class="text-md-end">{{v.wins.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{v.battles.toLocaleString("en")}}</td>
         <td class="text-md-end">{{(v.wins/v.battles*100).toFixed(2).substr(0,5)}}</td>
-        <td class="text-md-end">{{v.spawns}}</td>
-        <td class="text-md-end">{{v.deaths}}</td>
-        <td class="text-md-end">{{v.ground_kills}}</td>
-        <td class="text-md-end">{{v.air_kills}}</td>
+        <td class="text-md-end">{{v.spawns.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{v.deaths.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{v.ground_kills.toLocaleString("en")}}</td>
+        <td class="text-md-end">{{v.air_kills.toLocaleString("en")}}</td>
         <td class="text-md-end">{{((v.ground_kills+v.air_kills)/v.deaths).toFixed(2)}}</td>
         <td class="text-md-end">{{((v.ground_kills+v.air_kills)/v.spawns).toFixed(2)}}</td>
       </tr>

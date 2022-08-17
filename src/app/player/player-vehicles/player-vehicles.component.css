@@ -6,15 +6,22 @@
 
 
 /******        TABLE         ******/
-th.sorted.asc::before { content: "\25bc" }
-th.sorted.desc::before { content: "\25b2" }
-
+th.sorted.asc::before { content: "\25bc"; }
+th.sorted.desc::before { content: "\25b2"; }
+th.icon-col { min-width: 56px; }
+th.lp-co{ width: 3ch;  }
+th.role-col{ min-width: 5ch; }
+th.name-col{ min-width: 10ch;}
 
 #summary-row{
   font-style: italic;
   font-weight: bold;
   border-bottom: 2px dotted grey;
   background-color: #eef0f8;
+}
+
+#summary-row > td {
+  padding: 2px 1ex;
 }
 /******    END OF TABLE    ******/
 

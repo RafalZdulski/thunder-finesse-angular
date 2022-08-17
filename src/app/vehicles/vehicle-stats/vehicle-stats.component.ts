@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {VehicleService} from "../../../services/vehicle.service";
-import {VehicleModeStats, VehicleStats} from "../../../dtos/vehicle-stats";
+import {BaseStats, VehicleStats} from "../../../dtos/vehicle-stats";
 import { Observable, map } from 'rxjs';
 import {VehicleInfo} from "../../../dtos/vehicle-info";
 import {dateComparator} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools";
@@ -14,7 +14,7 @@ import {dateComparator} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-t
 export class VehicleStatsComponent implements OnInit {
   vehicleId! : string
   vehicleInfo! : VehicleInfo;
-  vehicleModeStats! : VehicleModeStats[];
+  vehicleModeStats! : BaseStats[];
   showKillsRatios = [false, false, false];
   showSpawnsRatios = [false, false, false];
   showKills = [false, false, false];
