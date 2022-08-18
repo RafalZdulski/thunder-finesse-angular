@@ -14,6 +14,7 @@
     "@amcharts/amcharts5": "^5.2.16",
     "@angular-slider/ngx-slider": "^2.0.4",
     "@angular/animations": "^14.1.0",
+    "@angular/cdk": "^14.1.2",
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
     "@angular/core": "^14.1.0",

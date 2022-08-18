@@ -1,6 +1,6 @@
 <app-player-navbar></app-player-navbar>
 <div class="container">
-  <div class="row">
+  <div class="row mb-4">
     <div class="offset-1 col-md-5">
       <div id="battle-donut-chart" class="d-flex align-content-center" ></div>
     </div>
@@ -11,48 +11,139 @@
           <li class="mb-3">
             <div class="row">
               <div class="col col-md-6">Arcade: </div>
-              <div class="col col-md-6 text-md-end">{{(playerStats.air_ab.battles + playerStats.ground_ab.battles).toLocaleString("en")}}</div>
+              <div class="col col-md-4 text-md-end">{{(playerStats.air_ab.battles + playerStats.ground_ab.battles).toLocaleString("en")}}</div>
             </div>
-            <div class="row">
+            <div class="small row">
               <div class="col col-md-5 offset-1">Air: </div>
-              <div class="col col-md-5 text-md-end">{{playerStats.air_ab.battles.toLocaleString("en")}}</div>
+              <div class="col col-md-3 text-md-end">{{playerStats.air_ab.battles.toLocaleString("en")}}</div>
             </div>
-            <div class="row">
+            <div class="small row">
               <div class="col col-md-5 offset-1">Ground: </div>
-              <div class="col col-md-5 text-md-end">{{playerStats.ground_ab.battles.toLocaleString("en")}}</div>
+              <div class="col col-md-3 text-md-end">{{playerStats.ground_ab.battles.toLocaleString("en")}}</div>
             </div>
           </li>
           <li class="mb-3">
             <div class="row">
               <div class="col col-md-6">Realistic: </div>
-              <div class="col col-md-6 text-md-end">{{(playerStats.air_rb.battles + playerStats.ground_rb.battles).toLocaleString("en")}}</div>
+              <div class="col col-md-4 text-md-end">{{(playerStats.air_rb.battles + playerStats.ground_rb.battles).toLocaleString("en")}}</div>
             </div>
-            <div class="row">
+            <div class="small row">
               <div class="col col-md-5 offset-1">Air: </div>
-              <div class="col col-md-5 text-md-end">{{playerStats.air_rb.battles.toLocaleString("en")}}</div>
+              <div class="col col-md-3 text-md-end">{{playerStats.air_rb.battles.toLocaleString("en")}}</div>
             </div>
-            <div class="row">
+            <div class="small row">
               <div class="col col-md-5 offset-1">Ground: </div>
-              <div class="col col-md-5 text-md-end">{{playerStats.ground_rb.battles.toLocaleString("en")}}</div>
+              <div class="col col-md-3 text-md-end">{{playerStats.ground_rb.battles.toLocaleString("en")}}</div>
             </div>
           </li>
           <li class="mb-3">
             <div class="row">
               <div class="col col-md-6">Simulation: </div>
-              <div class="col col-md-6 text-md-end">{{(playerStats.air_sb.battles + playerStats.ground_sb.battles).toLocaleString("en")}}</div>
+              <div class="col col-md-4 text-md-end">{{(playerStats.air_sb.battles + playerStats.ground_sb.battles).toLocaleString("en")}}</div>
             </div>
-            <div class="row">
+            <div class="small row">
               <div class="col col-md-5 offset-1">Air: </div>
-              <div class="col col-md-5 text-md-end">{{playerStats.air_sb.battles.toLocaleString("en")}}</div>
+              <div class="col col-md-3 text-md-end">{{playerStats.air_sb.battles.toLocaleString("en")}}</div>
             </div>
-            <div class="row">
+            <div class="small row">
               <div class="col col-md-5 offset-1">Ground: </div>
-              <div class="col col-md-5 text-md-end">{{playerStats.ground_sb.battles.toLocaleString("en")}}</div>
+              <div class="col col-md-3 text-md-end">{{playerStats.ground_sb.battles.toLocaleString("en")}}</div>
             </div>
           </li>
         </ul>
       </div>
     </div>
   </div>
-
+  <div class="container-fluid row justify-content-center">
+    <div *ngFor="let mode of modeStats; let i = index" class="card m-1 p-0 col-md-1">
+      <div class="card-body ms-0 me-0 ps-0 pe-0">
+        <div id="{{mode.mode_id}}-radar-chart" class="radar-chart"></div>
+        <h6 class="text-md-center">{{mode.mode_name}}</h6>
+        <div>
+          <ul class="p-0 m-2">
+            <li class="mb-1">
+              <div class="d-flex justify-content-around" (click)="showWins[i] = !showWins[i]">
+                <div class="col">win ratio: </div>
+                <div class="col text-md-end">{{(mode.mode_stats.wins/mode.mode_stats.battles*100).toFixed(2)}}%</div>
+              </div>
+              <div class="small" [hidden]="!showWins[i]">
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">wins: </div>
+                  <div class="col text-md-end">{{mode.mode_stats.wins.toLocaleString("en")}}</div>
+                </div>
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">battles: </div>
+                  <div class="col text-md-end">{{mode.mode_stats.battles.toLocaleString("en")}}</div>
+                </div>
+              </div>
+            </li>
+            <li class="mb-1">
+              <div class="d-flex justify-content-around" (click)="showKillsRatios[i] = !showKillsRatios[i]">
+                <div class="col">kills/death: </div>
+                <div class="col text-md-end">{{((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.battles).toFixed(2)}}</div>
+              </div>
+              <div class="small" [hidden]="!showKillsRatios[i]">
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">air kills/death: </div>
+                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.air_kills/mode.mode_stats.battles).toFixed(2)}}</div>
+                </div>
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">ground kills/death: </div>
+                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.ground_kills/mode.mode_stats.battles).toFixed(2)}}</div>
+                </div>
+              </div>
+            </li>
+            <li class="mb-1">
+              <div class="d-flex justify-content-around" (click)="showSpawnsRatios[i] = !showSpawnsRatios[i]">
+                <div class="col">kills/spawn: </div>
+                <div class="col text-md-end">{{((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.spawns).toFixed(2)}}</div>
+              </div>
+              <div class="small" [hidden]="!showSpawnsRatios[i]">
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">air kills/spawn: </div>
+                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.air_kills/mode.mode_stats.spawns).toFixed(2)}}</div>
+                </div>
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">ground kills/spawn: </div>
+                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.ground_kills/mode.mode_stats.spawns).toFixed(2)}}</div>
+                </div>
+              </div>
+            </li>
+            <li class="mb-1">
+              <div class="d-flex justify-content-around" (click)="showKills[i] = !showKills[i]">
+                <div class="col">kills: </div>
+                <div class="col text-md-end">{{(mode.mode_stats.air_kills+mode.mode_stats.ground_kills).toLocaleString("en")}}</div>
+              </div>
+              <div class="small" [hidden]="!showKills[i]">
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">air: </div>
+                  <div class="col text-md-end">{{mode.mode_stats.air_kills.toLocaleString("en")}}</div>
+                </div>
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col">ground: </div>
+                  <div class="col text-md-end">{{mode.mode_stats.ground_kills.toLocaleString("en")}}</div>
+                </div>
+              </div>
+            </li>
+            <li class="mb-1">
+              <div class="d-flex justify-content-around" (click)="showBattles[i] = !showBattles[i]">
+                <div class="col">battles: </div>
+                <div class="col text-md-end">{{mode.mode_stats.battles.toLocaleString("en")}}</div>
+              </div>
+              <div class="small" [hidden]="!showBattles[i]">
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col"> spawns: </div>
+                  <div class="col text-md-end">{{mode.mode_stats.spawns.toLocaleString("en")}}</div>
+                </div>
+                <div class="d-flex justify-content-around offset-1">
+                  <div class="col"> deaths: </div>
+                  <div class="col text-md-end">{{mode.mode_stats.deaths.toLocaleString("en")}}</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
