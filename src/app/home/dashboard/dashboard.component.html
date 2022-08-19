@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="card col-sm-6">
+      <div class="card-header">
+        <h6 class="m-0">Colors Thresholds</h6>
+      </div>
+      <table class="table table-responsive table-borderless card-body mb-0">
+        <thead class="text-md-center">
+        <th>Name</th>
+        <th>Win ratio</th>
+        <th>Kill/Death ratio</th>
+        <th>Kill/Spawn ratio</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of tableRows"
+              class="text-white text-md-center border border-light border-1"
+              [style.background-color]="t.color">
+            <td class="text-md-start text-capitalize">{{t.name}}</td>
+            <td>{{(t.wr*100).toFixed(0)}}%</td>
+            <td>{{t.kdr.toFixed(2)}}</td>
+            <td>{{t.ksr.toFixed(2)}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card-footer small text-muted p-1">
+        *Values are set arbitrarily and should be updated soon to better reflect the distribution of player effectiveness
+      </div>
+    </div>
+  </div>
+</div>
