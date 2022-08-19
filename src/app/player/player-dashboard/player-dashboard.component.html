@@ -64,7 +64,12 @@
             <li class="mb-1">
               <div class="d-flex justify-content-around" (click)="showWins[i] = !showWins[i]">
                 <div class="col">win ratio: </div>
-                <div class="col text-md-end">{{(mode.mode_stats.wins/mode.mode_stats.battles*100).toFixed(2)}}%</div>
+                <div class="col text-md-end">
+                  <span class="rounded-5 pe-2 ps-2 text-white"
+                        [style.background-color]="getSkillColor(mode.mode_stats.wins/mode.mode_stats.battles,'wr')">
+                  {{(mode.mode_stats.wins/mode.mode_stats.battles*100).toFixed(2)}}%
+                  </span>
+                </div>
               </div>
               <div class="small" [hidden]="!showWins[i]">
                 <div class="d-flex justify-content-around offset-1">
@@ -80,23 +85,33 @@
             <li class="mb-1">
               <div class="d-flex justify-content-around" (click)="showKillsRatios[i] = !showKillsRatios[i]">
                 <div class="col">kills/death: </div>
-                <div class="col text-md-end">{{((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.battles).toFixed(2)}}</div>
+                <div class="col text-md-end">
+                  <span class="rounded-5 pe-2 ps-2 text-white"
+                        [style.background-color]="getSkillColor((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.deaths,'kdr')">
+                  {{((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.deaths).toFixed(2)}}
+                  </span>
+                </div>
               </div>
               <div class="small" [hidden]="!showKillsRatios[i]">
                 <div class="d-flex justify-content-around offset-1">
                   <div class="col">air kills/death: </div>
-                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.air_kills/mode.mode_stats.battles).toFixed(2)}}</div>
+                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.air_kills/mode.mode_stats.deaths).toFixed(2)}}</div>
                 </div>
                 <div class="d-flex justify-content-around offset-1">
                   <div class="col">ground kills/death: </div>
-                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.ground_kills/mode.mode_stats.battles).toFixed(2)}}</div>
+                  <div class="col text-md-end align-self-center">{{(mode.mode_stats.ground_kills/mode.mode_stats.deaths).toFixed(2)}}</div>
                 </div>
               </div>
             </li>
             <li class="mb-1">
               <div class="d-flex justify-content-around" (click)="showSpawnsRatios[i] = !showSpawnsRatios[i]">
                 <div class="col">kills/spawn: </div>
-                <div class="col text-md-end">{{((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.spawns).toFixed(2)}}</div>
+                <div class="col text-md-end">
+                  <span class="rounded-5 pe-2 ps-2 text-white"
+                        [style.background-color]="getSkillColor((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.spawns,'ksr')">
+                  {{((mode.mode_stats.air_kills+mode.mode_stats.ground_kills)/mode.mode_stats.spawns).toFixed(2)}}
+                  </span>
+                </div>
               </div>
               <div class="small" [hidden]="!showSpawnsRatios[i]">
                 <div class="d-flex justify-content-around offset-1">

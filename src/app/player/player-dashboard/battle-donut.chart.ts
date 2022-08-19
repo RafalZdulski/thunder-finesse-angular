@@ -1,7 +1,7 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import {PlayerModeStats} from "../../../dtos/player-mode-stats";
-import { mode_colors } from "./color.scheme";
+import { mode_colors } from "../../../assets/color.scheme";
 
 export function initBattleDonutChart(playerStats: PlayerModeStats, id: string){
   // Create root

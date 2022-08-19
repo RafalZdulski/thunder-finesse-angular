@@ -11,7 +11,7 @@ const maxKsr = 3.5
 const minBattles = 10000
 const maxBattles = 50000
 const minSurviv = 0.10
-const maxSurviv = 0.90
+const maxSurviv = 0.50
 
 // normalizing value to a number between 0 and 1
 function normalizeValue(value: number, min: number, max: number):number {

@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PlayerService} from "../../../services/player.service";
 import {PlayerVehicleStats} from "../../../dtos/player-vehicle-stats";
-import {filter, map, Observable, of, toArray} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {aircraftClasses, brs, groundVehicleClasses, modes, nations, ranks, status} from "src/app/player/player-vehicles/filters-consts";
-import {VehicleStats} from "../../../dtos/vehicle-stats";
 import {VehicleInfo} from "../../../dtos/vehicle-info";
-import {isNumber} from "@ng-bootstrap/ng-bootstrap/util/util";
-import {Player} from "../../../dtos/player";
 import {romanToInt} from "../../../utils/roman-numerals";
+import * as thresholds from "src/assets/threshold.scheme";
+import {mode_colors, skill_colors} from "../../../assets/color.scheme";
+import {number} from "@amcharts/amcharts4/core";
 
 @Component({
   selector: 'app-player-vehicles',
@@ -23,7 +23,7 @@ export class PlayerVehiclesComponent implements OnInit {
   allVehicles!: PlayerVehicleStats[];
   filteredVehicles!: Observable<PlayerVehicleStats[]>;
 
-  //summary row
+  //data for summary row
   sumWins = 0;
   sumBattles = 0;
   sumSpawns = 0;
@@ -53,6 +53,30 @@ export class PlayerVehiclesComponent implements OnInit {
     });
   }
 
+  //**** COLORING INDICATORS ****//
+  getSummaryRowBg(mode: string):string {
+    // @ts-ignore
+    return mode_colors[mode];
+  }
+
+  getSkillColor(value: number, field: string): string{
+    if (value == 0 || Number.isNaN(value))
+      return skill_colors.terrible;
+    // @ts-ignore
+    const tempThresholds = thresholds[field+'_thresholds'];
+    let thresholdName: string = "";
+    for (let t in tempThresholds){
+      if (thresholdName == "") thresholdName = t;
+      if (value < tempThresholds[t]) break;
+      thresholdName = t;
+    }
+    // @ts-ignore
+    return skill_colors[thresholdName];
+  }
+  //**** END OF COLORING INDICATORS ****//
+
+
+  // calculating summary row
   calculateSummary(vehicles: Observable<PlayerVehicleStats[]>) {
     vehicles.subscribe(data => {
       data.forEach(v => {
@@ -77,9 +101,6 @@ export class PlayerVehiclesComponent implements OnInit {
       this.sortedField = field
       this.sortDir = 1;
     }
-
-    console.log(this.sortedField)
-
     //TODO refactor sort function
     this.filteredVehicles.forEach(vehicles => {
       vehicles.sort((a, b) => {

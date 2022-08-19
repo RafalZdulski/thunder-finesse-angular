@@ -16,13 +16,13 @@ th.name-col{ min-width: 10ch;}
 #summary-row{
   font-style: italic;
   font-weight: bold;
-  border-bottom: 2px dotted grey;
-  background-color: #eef0f8;
+  background-color: #dcdcdc;
+  height: 40px;
 }
 
-#summary-row > td {
-  padding: 2px 1ex;
-}
+/*#summary-row > td {*/
+/*  padding: 2px 1ex;*/
+/*}*/
 /******    END OF TABLE    ******/
 
 
