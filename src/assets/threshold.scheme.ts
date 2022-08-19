@@ -5,7 +5,7 @@
 // or even different for each vehicle
 
 export const wr_thresholds = {
-  terrible:       .42,
+  terrible:       .41,
   bad:            .46,
   below_average:  .49,
   average:        .52,
@@ -24,7 +24,7 @@ export const kdr_thresholds = {
   average:        1.50,
   above_average:  1.75,
   good:           2.00,
-  excellent:      2.24,
+  excellent:      2.25,
   outstanding:    2.50,
   madlad:         3.00,
 }
@@ -37,7 +37,7 @@ export const ksr_thresholds = {
   average:        1.50,
   above_average:  1.75,
   good:           2.00,
-  excellent:      2.24,
+  excellent:      2.25,
   outstanding:    2.50,
   madlad:         3.00,
 }
