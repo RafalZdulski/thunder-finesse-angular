@@ -42,14 +42,34 @@ export class SimpleBarChart {
     return this;
   }
 
-  setXAxis(): SimpleBarChart {
+  setXAxis(icons:boolean = true): SimpleBarChart {
     // Create axes
     let xRenderer = am5xy.AxisRendererX.new(this._root, {minGridDistance: 1});
-    xRenderer.labels.template.setAll({centerY: am5.p50, centerX: am5.p50,});
+    xRenderer.labels.template.setAll({
+      centerY: am5.p50,
+      centerX: am5.p50,
+      visible: !icons,
+    });
     this._xAxis = this._chart.xAxes.push(am5xy.CategoryAxis.new(this._root, {
       categoryField: "fullName",
       renderer: xRenderer,
     }));
+
+    if(icons) {
+      this._xAxis._settings.bullet = (root, axis, dataItem) =>
+        am5xy.AxisBullet.new(root, {
+          // location: 0.5,
+          sprite: am5.Picture.new(root, {
+            width: 40,
+            height: 20,
+            centerY: am5.p50,
+            centerX: am5.p50,
+            // @ts-ignore
+            src: dataItem.dataContext.icon
+          })
+        })
+    }
+
     return this;
   }
 
@@ -80,7 +100,7 @@ export class SimpleBarChart {
       return am5.Color.brighten(color, brightenInPercents)
     });
 
-    series.bullets.push(function (root) {
+    series.bullets.push(root => {
       return am5.Bullet.new(root, {
         locationY: 1,
         sprite: am5.Label.new(root, {

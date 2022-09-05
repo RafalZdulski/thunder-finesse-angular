@@ -12,7 +12,7 @@ interface dto{
   mode_id: string;
   mode_name: string;
   mode_stats: baseStats;
-};
+}
 
 @Component({
   selector: 'app-player-dashboard',
@@ -80,7 +80,6 @@ export class PlayerDashboardComponent implements OnInit, AfterViewInit {
           mode_name: "Ground Simulation",
           mode_stats : this.playerStats.ground_sb,
         }]
-
       });
   }
 

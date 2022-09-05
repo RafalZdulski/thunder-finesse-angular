@@ -24,7 +24,7 @@ export class PlayerNavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  update(login: string) {
+  update() {
 
   }
 

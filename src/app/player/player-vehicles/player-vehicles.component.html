@@ -189,7 +189,7 @@
       <tbody>
       <tr *ngFor="let v of filteredVehicles | async; let i = index">
         <td class="text-md-end">{{i+1}}</td>
-        <td class="text-md-center">{{v.vehicle.rank}}</td>
+        <td><img src="/assets/ranks_icons/{{v.vehicle.rank}}_rank_icon.png" width="40" height="20"></td>
         <td class="text-md-center"><img src="/assets/flags/{{v.vehicle.nation}}_flag.png" width="40" height="20"></td>
         <td class="text-md-center" [hidden]="!mode.endsWith('ab')">{{v.vehicle.arcade_br}}</td>
         <td class="text-md-center" [hidden]="!mode.endsWith('rb')">{{v.vehicle.realistic_br}}</td>
