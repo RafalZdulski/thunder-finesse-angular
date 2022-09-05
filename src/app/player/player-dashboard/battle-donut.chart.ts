@@ -2,6 +2,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import {PlayerModeStats} from "../../../dtos/player-mode-stats";
 import { mode_colors } from "../../../assets/color.scheme";
+import * as am5themes from "@amcharts/amcharts5/themes/Animated"
 
 export function initBattleDonutChart(playerStats: PlayerModeStats, id: string){
   // Create root
@@ -10,9 +11,8 @@ export function initBattleDonutChart(playerStats: PlayerModeStats, id: string){
   // root.container.set('width','100px')
   // root.container.set('height',100%)
 
-  // root.setThemes([
-  //   am5themes_Animated.new(root)
-  // ]);
+  // Set themes
+  root.setThemes([am5themes.default.new(root)]);
 
   const sumBattles =
     playerStats.air_ab.battles + playerStats.ground_ab.battles +
@@ -123,9 +123,6 @@ export function initBattleDonutChart(playerStats: PlayerModeStats, id: string){
   //
   // legend.data.setAll(series0.dataItems);
 
-
-
-
   //*********       OUTER DONUT          *********//
   // - battles among main dificulty modes arcade, realsitic, simulation
 
@@ -188,6 +185,8 @@ export function initBattleDonutChart(playerStats: PlayerModeStats, id: string){
       label.hide()
   }
 
-
+  series0.appear(1000);
+  series2.appear(1000);
+  chart.appear(1000, 100);
 
 }

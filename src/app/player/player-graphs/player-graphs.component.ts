@@ -3,11 +3,10 @@ import {ActivatedRoute} from "@angular/router";
 import {PlayerService} from "../../../services/player.service";
 import {modes} from '../player-vehicles/filters-consts';
 import {PlayerVehicleStats} from "../../../dtos/player-vehicle-stats";
-import {drawSimpleBarChart} from "./charts/simple-bar.chart";
+import {SimpleBarChart} from "./charts/simple-bar.chart";
 import {VehicleInfo} from "../../../dtos/vehicle-info";
 import * as am5 from "@amcharts/amcharts5";
 import * as chartUtil from "./charts/charts.util";
-import {drawStackedBarChart} from "./charts/stacked-bar.chart";
 import {cloneDeep} from "lodash";
 
 @Component({
@@ -45,9 +44,9 @@ export class PlayerGraphsComponent implements OnInit {
 
     this.playerService.getPlayerVehiclesStats(this.login, this.mode).subscribe(data => {
       this.allVehicles = data;
-      this.initSimpleSumBarChart('per-rank-charts','battles','rank');
-      this.initSimpleSumBarChart('per-nation-charts','battles','nation');
-      this.initSimpleSumBarChart('per-klass-charts','battles','klass');
+      this.initBattleChart('per-rank-charts','rank');
+      this.initBattleChart('per-nation-charts','nation');
+      this.initBattleChart('per-klass-charts','klass');
     });
   }
 
@@ -65,30 +64,37 @@ export class PlayerGraphsComponent implements OnInit {
     klass: am5.Root;
   };
 
-  initSimpleSumBarChart(chartId: string, value: keyof PlayerVehicleStats, key: keyof VehicleInfo) {
-    let chartType = key as keyof typeof this.activeChart;
-    this.activeChart[chartType] = value;
-    let mapOfValues: Map<string, number> = chartUtil.getMapOfSum(this.allVehicles, value , key);
-    let chartValues: chartUtil.ChartValues[] = this.toChartValuesArr(mapOfValues, key)
-    drawSimpleBarChart(chartId, chartValues, false)
+  initBattleChart(chartId: string, category: keyof VehicleInfo){
+    let chartType = category as keyof typeof this.activeChart;
+    this.activeChart[chartType] = 'battles';
+    let sumOfBattlesMap: Map<string, number> = chartUtil.getMapOfSum(this.allVehicles, 'battles' , category);
+    let sumOfBattlesArr: chartUtil.ChartValues[] = this.toChartValuesArr(sumOfBattlesMap, category)
+    new SimpleBarChart(chartId).setXAxis().setYAxis().pushData(sumOfBattlesArr).addCursor();
   }
 
-  initSimpleRatioBarChart(chartId: string, numerator: keyof PlayerVehicleStats, denominator: keyof PlayerVehicleStats, key: keyof VehicleInfo, inPercents: boolean) {
-    let chartType = key as keyof typeof this.activeChart;
-    this.activeChart[chartType] = numerator+"-"+denominator;
-    let mapOfValues: Map<string, number> = chartUtil.getMapOfRatios(this.allVehicles, numerator, denominator , key);
-    let chartValues: chartUtil.ChartValues[] = this.toChartValuesArr(mapOfValues, key)
-    drawSimpleBarChart(chartId, chartValues, inPercents)
+  initKdRatioChart(chartId: string, category: keyof VehicleInfo){
+    let chartType = category as keyof typeof this.activeChart;
+    this.activeChart[chartType] = 'kdr';
+    let airKdrMap: Map<string, number> = chartUtil.getMapOfRatios(this.allVehicles, 'air_kills', 'deaths' , category);
+    let airKdrArr: chartUtil.ChartValues[] = this.toChartValuesArr(airKdrMap, category);
+    let groundKdrMap: Map<string, number> = chartUtil.getMapOfRatios(this.allVehicles, 'ground_kills', 'deaths', category);
+    if (this.mode.startsWith('air')){
+      let  groundKdrArr: chartUtil.ChartValues[] = this.toChartValuesArr(groundKdrMap, category);
+      new SimpleBarChart(chartId).setXAxis().setYAxis()
+        .pushData(groundKdrArr, true, "ground k/d",0,0)
+        .pushData(airKdrArr, true, "air k/d", 1).addCursor();
+    } else {
+      airKdrArr.forEach((value, index) => value.value += groundKdrMap.get(value.key)!)
+      new SimpleBarChart(chartId, "##.00").setXAxis().setYAxis().pushData(airKdrArr).addCursor();
+    }
   }
 
-  initStackedRatioChart(chartId: string, numerator1: keyof PlayerVehicleStats, numerator2: keyof PlayerVehicleStats, denominator: keyof PlayerVehicleStats, key: keyof VehicleInfo){
-    let chartType = key as keyof typeof this.activeChart;
-    this.activeChart[chartType] = numerator1+"-"+numerator2+"-"+denominator;
-    let mapOfValues1: Map<string, number> = chartUtil.getMapOfRatios(this.allVehicles, numerator1, denominator, key);
-    let chartValues1: chartUtil.ChartValues[] = this.toChartValuesArr(mapOfValues1, key)
-    let mapOfValues2: Map<string, number> = chartUtil.getMapOfRatios(this.allVehicles, numerator2, denominator, key);
-    let chartValues2: chartUtil.ChartValues[] = this.toChartValuesArr(mapOfValues2, key)
-    drawStackedBarChart(chartId, chartValues1, chartValues2)
+  initWrChart(chartId: string, category: keyof VehicleInfo){
+    let chartType = category as keyof typeof this.activeChart;
+    this.activeChart[chartType] = 'wr';
+    let wrMap: Map<string, number> = chartUtil.getMapOfRatios(this.allVehicles, 'wins', 'battles' , category);
+    let wrArr: chartUtil.ChartValues[] = this.toChartValuesArr(wrMap, category)
+    new SimpleBarChart(chartId, "##.0%").setXAxis().setYAxis(0.4).pushData(wrArr).addCursor();
   }
 
   toChartValuesArr(mapOfValues: Map<string, number>, key: keyof VehicleInfo): chartUtil.ChartValues[] {

@@ -1,126 +1,110 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy"
 
-import * as am5percent from "@amcharts/amcharts5/percent";
 import {ChartValues} from "./charts.util";
+import * as am5themes from "@amcharts/amcharts5/themes/Animated"
 
+export class SimpleBarChart {
+  private _root: am5.Root;
+  private _chart: am5xy.XYChart;
 
+  private _yAxis!: am5xy.ValueAxis<any>;
+  private _xAxis!: am5xy.CategoryAxis<any>;
 
-export function drawSimpleBarChart(divId: string, data: ChartValues[], inPercent: boolean) {
-  am5.array.each(am5.registry.rootElements, function(root) {
-    if (root != undefined && root.dom.id == divId) {
-      root.dispose();
-    }
-  });
+  constructor(divId: string, numberFormat:string = "#,###.##") {
+    // clear previous charts in this for this root
+    am5.array.each(am5.registry.rootElements, function (root) {
+      if (root != undefined && root.dom.id == divId)
+        root.dispose();
+    });
+    this._root = am5.Root.new(divId);
+    this._root.numberFormatter.set('numberFormat',numberFormat);
 
-  let root = am5.Root.new(divId);
+    // Create chart
+    this._chart = this._root.container.children.push(am5xy.XYChart.new(this._root, {}));
 
-  let axisNumberFormat;
-  let tooltipNumberFormat;
-  if (inPercent) {
-    axisNumberFormat = "#,### %"
-    tooltipNumberFormat = "##.0%"
-  } else {
-    axisNumberFormat = "#,###a"
-    tooltipNumberFormat = "#,###"
+    // Set themes
+    this._root.setThemes([am5themes.default.new(this._root)]);
+
+    // Make stuff animate on load
+    this._chart.appear(1000, 100);
   }
 
-  root.numberFormatter.set("numberFormat", tooltipNumberFormat)
+  setYAxis(min:number = 0, max:number = 0, numberFormat:string = "#,###.##",visible: boolean = false): SimpleBarChart {
+    this._yAxis = this._chart.yAxes.push(am5xy.ValueAxis.new(this._root, {
+      min: min,
+      max: max==0? undefined : max,
+      extraMax: 0.1,
+      numberFormat: numberFormat,
+      renderer: am5xy.AxisRendererY.new(this._root, {}),
+      visible: visible,
+    }));
+    return this;
+  }
 
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-//   root.setThemes([
-//     am5themes_Animated.new(root)
-//   ]);
+  setXAxis(): SimpleBarChart {
+    // Create axes
+    let xRenderer = am5xy.AxisRendererX.new(this._root, {minGridDistance: 1});
+    xRenderer.labels.template.setAll({centerY: am5.p50, centerX: am5.p50,});
+    this._xAxis = this._chart.xAxes.push(am5xy.CategoryAxis.new(this._root, {
+      categoryField: "fullName",
+      renderer: xRenderer,
+    }));
+    return this;
+  }
 
+  pushData(data: ChartValues[], tooltipVisible:boolean = false, name:string='series', brightenInPercents:number = 0, cornerRadius:number = 5): SimpleBarChart{
+    // Create series
+    let series = this._chart.series.push(am5xy.ColumnSeries.new(this._root, {
+      name: name,
+      xAxis: this._xAxis,
+      yAxis: this._yAxis,
+      valueYField: "value",
+      sequencedInterpolation: true,
+      categoryXField: "fullName",
+      maskBullets: false,
+      stacked: true,
+      tooltip: tooltipVisible? am5.Tooltip.new(this._root,{
+        labelText: "{name}: {value}",
+      }) : undefined
+    }));
 
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-  let chart = root.container.children.push(
-    am5xy.XYChart.new(root, {
-  }));
-
-// Add cursor
-// https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-  let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-  cursor.lineY.set("visible", false);
-  cursor.lineX.set("visible", false);
-
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-  let xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 1 });
-  xRenderer.labels.template.setAll({
-    // rotation: -90,
-    centerY: am5.p50,
-    centerX: am5.p50,
-    // paddingRight: 15
-  });
-
-  let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-    categoryField: "fullName",
-    renderer: xRenderer,
-    // tooltip: am5.Tooltip.new(root, {
-    //
-    // })
-  }));
-
-  let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-    // min: 0,
-    // extraMin: -0.1,
-    // baseValue: 0.5,
-    extraMax: 0.1,
-    numberFormat: axisNumberFormat,
-    renderer: am5xy.AxisRendererY.new(root, {}),
-    visible: false,
-  }));
-
-// Create series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-  let series = chart.series.push(am5xy.ColumnSeries.new(root, {
-    name: "Series 1",
-    xAxis: xAxis,
-    yAxis: yAxis,
-    valueYField: "value",
-    sequencedInterpolation: true,
-    categoryXField: "fullName",
-    maskBullets: false,
-    // tooltip : am5.Tooltip.new(root,{
-    //   labelText: "{value}",
-    // })
-  }));
-
-  series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5});
-  series.columns.template.adapters.add("fill", function(fill, target) {
-    // @ts-ignore
-    return chart.get("colors").getIndex(series.columns.indexOf(target));
-  });
-
-  series.columns.template.adapters.add("stroke", function(stroke, target) {
-    // @ts-ignore
-    return chart.get("colors").getIndex(series.columns.indexOf(target));
-  });
-
-  series.bullets.push(function () {
-    return am5.Bullet.new(root, {
-      locationY: 1,
-      sprite: am5.Label.new(root, {
-        text: "{value}",
-        // fill: root.interfaceColors.get("alternativeText"),
-        centerY: am5.percent(75),
-        centerX: am5.p50,
-        populateText: true
-      })
+    series.columns.template.setAll({cornerRadiusTL: cornerRadius, cornerRadiusTR: cornerRadius});
+    series.columns.template.adapters.add("fill", (fill, target) => {
+      let color = this._chart.get("colors")!.getIndex(series.columns.indexOf(target));
+      return am5.Color.brighten(color, brightenInPercents)
     });
-  });
 
-  xAxis.data.setAll(data);
-  series.data.setAll(data);
+    series.columns.template.adapters.add("stroke", (stroke, target) => {
+      let color = this._chart.get("colors")!.getIndex(series.columns.indexOf(target));
+      return am5.Color.brighten(color, brightenInPercents)
+    });
 
+    series.bullets.push(function (root) {
+      return am5.Bullet.new(root, {
+        locationY: 1,
+        sprite: am5.Label.new(root, {
+          text: "{value}",
+          // fill: root.interfaceColors.get("alternativeText"),
+          centerY: am5.percent(75),
+          centerX: am5.p50,
+          populateText: true
+        })
+      });
+    });
 
-// Make stuff animate on load
-// https://www.amcharts.com/docs/v5/concepts/animations/
-//   series.appear(1000);
-//   chart.appear(1000, 100);
+    this._xAxis.data.setAll(data);
+    series.data.setAll(data);
 
+    series.appear(1000);
+
+    return this;
+  }
+
+  addCursor(): SimpleBarChart {
+    let cursor = this._chart.set("cursor", am5xy.XYCursor.new(this._root, {}));
+    cursor.lineY.set("visible", false);
+    cursor.lineX.set("visible", false);
+    return this;
+  }
 }

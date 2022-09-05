@@ -15,9 +15,9 @@
   <div class="col col-lg-4">
     <div class="tab-bar">
       <ul class="nav nav-tabs">
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.rank=='battles'}" (click)="initSimpleSumBarChart('per-rank-charts', 'battles', 'rank')">battles</div></li>
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.rank=='wins-battles'}" (click)="initSimpleRatioBarChart('per-rank-charts', 'wins','battles', 'rank', true)">win ratio</div></li>
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.rank=='air_kills-ground_kills-deaths'}" (click)="initStackedRatioChart('per-rank-charts', 'air_kills','ground_kills','deaths', 'rank')">k/d ratio</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.rank=='battles'}" (click)="initBattleChart('per-rank-charts', 'rank')">battles</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.rank=='wr'}" (click)="initWrChart('per-rank-charts', 'rank')">win ratio</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.rank=='kdr'}" (click)="initKdRatioChart('per-rank-charts', 'rank')">k/d ratio</div></li>
       </ul>
     </div>
     <div>
@@ -28,9 +28,9 @@
   <div class="col-lg-5">
     <div class="tab-bar">
       <ul class="nav nav-tabs">
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.nation=='battles'}" (click)="initSimpleSumBarChart('per-nation-charts', 'battles', 'nation')">battles</div></li>
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.nation=='wins-battles'}" (click)="initSimpleRatioBarChart('per-nation-charts', 'wins','battles', 'nation', true)">win ratio</div></li>
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.nation=='air_kills-ground_kills-deaths'}" (click)="initStackedRatioChart('per-nation-charts', 'air_kills','ground_kills','deaths', 'nation')">k/d ratio</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.nation=='battles'}" (click)="initBattleChart('per-nation-charts', 'nation')">battles</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.nation=='wr'}" (click)="initWrChart('per-nation-charts', 'nation')">win ratio</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.nation=='kdr'}" (click)="initKdRatioChart('per-nation-charts', 'nation')">k/d ratio</div></li>
       </ul>
     </div>
     <div class="container">
@@ -41,9 +41,9 @@
   <div class="col col-lg-3">
     <div class="tab-bar">
       <ul class="nav nav-tabs">
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.klass=='battles'}" (click)="initSimpleSumBarChart('per-klass-charts', 'battles', 'klass')">battles</div></li>
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.klass=='wins-battles'}" (click)="initSimpleRatioBarChart('per-klass-charts', 'wins','battles', 'klass', true)">win ratio</div></li>
-        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.klass=='air_kills-ground_kills-deaths'}" (click)="initStackedRatioChart('per-klass-charts', 'air_kills','ground_kills','deaths', 'klass')">k/d ratio</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.klass=='battles'}" (click)="initBattleChart('per-klass-charts', 'klass')">battles</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.klass=='wr'}" (click)="initWrChart('per-klass-charts', 'klass')">win ratio</div></li>
+        <li class="nav-item"><div class="nav-link" [ngClass]="{'active': activeChart.klass=='kdr'}" (click)="initKdRatioChart('per-klass-charts', 'klass')">k/d ratio</div></li>
       </ul>
     </div>
     <div>

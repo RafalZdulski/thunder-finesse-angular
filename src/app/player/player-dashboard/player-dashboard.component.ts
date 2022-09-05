@@ -5,7 +5,6 @@ import {baseStats, PlayerModeStats} from "../../../dtos/player-mode-stats";
 import {initBattleDonutChart} from "./battle-donut.chart";
 import {initModeSpiderChart4} from "./mode-spider.chart";
 import {mode_colors, skill_colors} from "../../../assets/color.scheme";
-import {number} from "@amcharts/amcharts4/core";
 import * as thresholds from "../../../assets/threshold.scheme";
 
 // used to allow the use of *ngFor directive
